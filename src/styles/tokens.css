@@ -1,0 +1,50 @@
+/* ==========================================================
+   CHTS design tokens — official palette (midnight navy + gold)
+   ========================================================== */
+:root {
+  /* brand */
+  --gold: #f4b400;
+  --gold-2: #d9a441;
+  --gold-soft: rgb(244 180 0 / 0.12);
+  --gold-line: rgb(244 180 0 / 0.35);
+
+  /* surfaces */
+  --bg: #050514;
+  --bg-2: #0b0b18;
+  --bg-3: #111827;
+  --card: #151827;
+  --logo-plate: #000015; /* sampled from the official dark-theme logo artwork */
+
+  /* text */
+  --text: #ffffff;
+  --text-2: #c4c5ce;
+  --muted: #9296a5;
+  --border: #292b3b;
+  --border-soft: rgb(41 43 59 / 0.6);
+
+  /* type */
+  --font-sans: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Instrument Serif', 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  --fs-hero: clamp(3.2rem, 9.6vw, 10rem);
+  --fs-display: clamp(2.5rem, 6vw, 6rem);
+  --fs-h2: clamp(2.1rem, 4.6vw, 4.4rem);
+  --fs-h3: clamp(1.35rem, 2vw, 1.75rem);
+  --fs-lead: clamp(1.1rem, 1.45vw, 1.35rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-micro: 0.75rem;
+
+  /* layout */
+  --container: 1440px;
+  --gutter: clamp(20px, 4.2vw, 64px);
+  --section: clamp(96px, 14vw, 200px);
+  --radius: 22px;
+  --radius-sm: 12px;
+  --nav-h: 84px;
+
+  /* motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
+}
