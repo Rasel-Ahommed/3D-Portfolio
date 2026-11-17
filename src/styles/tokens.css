@@ -39,7 +39,7 @@
   /* layout */
   --container: 1440px;
   --gutter: clamp(20px, 4.2vw, 64px);
-  --section: clamp(96px, 14vw, 200px);
+  --section: clamp(24px, 4vw, 48px);
   --radius: 22px;
   --radius-sm: 12px;
   --nav-h: 84px;

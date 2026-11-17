@@ -5,6 +5,7 @@ import type { ProjectCategory } from './types';
 export * from './site';
 export * from './services';
 export * from './people';
+export * from './blog';
 export type * from './types';
 
 export const SHOW_DRAFTS = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true';

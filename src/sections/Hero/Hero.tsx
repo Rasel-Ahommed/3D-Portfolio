@@ -35,7 +35,8 @@ export function Hero() {
     <section ref={ref} className="hero" data-chapter="0" aria-labelledby="hero-title">
       <div className="container hero__content">
         <motion.p className="hero__kicker" {...fade(0)}>
-          <span className="eyebrow__dot" aria-hidden /> {company.name}
+          {/* <span className="eyebrow__dot" aria-hidden />  */}
+          {company.name}
         </motion.p>
         <SplitText as="h1" id="hero-title" className="hero__title" text="Beyond *Digital* Possibilities." trigger="intro" stagger={0.09} />
         <div className="hero__row">

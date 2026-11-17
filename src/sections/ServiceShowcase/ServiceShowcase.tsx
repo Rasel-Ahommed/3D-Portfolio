@@ -51,8 +51,8 @@ export function ServiceShowcase() {
           eyebrow="What we do"
           index="02"
           titleId="svc-title"
-          title="Eight disciplines. *One* engineering standard."
-          lead="From custom software to AI automation and infrastructure — each discipline has its own craft, and every one is held to the same bar for quality and support."
+          title={`${services.length} disciplines. *One* engineering standard.`}
+          lead="From custom software and AI automation to architecture, security and infrastructure — each discipline has its own craft, and every one is held to the same bar for quality and support."
           align="split"
         />
         <div className="svc__layout">
@@ -78,7 +78,7 @@ export function ServiceShowcase() {
               {!use3D && <ServiceGlyph key={current.visual} visual={current.visual} className="svc__fallback" />}
               <div className="svc__stage-meta">
                 <span className="svc__stage-count">
-                  {current.index} <i>/ 08</i>
+                  {current.index} <i>/ {String(services.length).padStart(2, '0')}</i>
                 </span>
                 <AnimatePresence mode="wait">
                   <motion.div key={current.slug} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }}>

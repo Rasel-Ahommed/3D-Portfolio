@@ -4,7 +4,7 @@ export function Eyebrow({ children, index, className }: { children: ReactNode; i
   return (
     <p className={cn('eyebrow', className)}>
       {index && <span className="eyebrow__index">{index}</span>}
-      <span className="eyebrow__dot" aria-hidden />
+      {/* <span className="eyebrow__dot" aria-hidden /> */}
       {children}
     </p>
   );

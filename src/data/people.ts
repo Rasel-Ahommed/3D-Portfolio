@@ -1,15 +1,15 @@
 import type { JobOpening, TeamMember, Testimonial } from './types';
 
 /** Source: https://chtsltd.com/our-team (Nov 2026). */
-const TEAM_IMG = 'https://chtsltd.com/assets/images/frontend/team';
+const TEAM_IMG = '/team';
 
 export const team: TeamMember[] = [
   {
     slug: 'samir-khan',
     name: 'Samir Khan',
     role: 'Founder & Chairman',
-    bio: 'Leads strategy, growth and key decisions — driving global expansion, client acquisition and scalable software solutions.',
-    portrait: `${TEAM_IMG}/e907e9a5-735e-4fc5-9be9-f79721258d5a.png`,
+    bio: 'Simplifying Complexity Through Innovation.',
+    portrait: `${TEAM_IMG}/md.jpg`,
     socials: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samir-khan-b83178227' },
       { label: 'X', href: 'https://x.com/Samirkhan33990' },
@@ -17,26 +17,37 @@ export const team: TeamMember[] = [
     ],
   },
   {
+    slug: 'rasel-ahmed-rana',
+    name: 'Rasel Ahmed Rana',
+    role: 'Chief Executive Officer',
+    bio: 'Think Smart. Build Best.',
+    portrait: `${TEAM_IMG}/ceo.jpeg`,
+    socials: [{ label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61579125720580' }],
+  },
+  {
     slug: 'hridoy-sheikh',
     name: 'Hridoy Sheikh',
     role: 'Chief Technology Officer',
     bio: 'Turning complex problems into smart solutions.',
-    portrait: `${TEAM_IMG}/0e884d5e-3930-4b30-a221-d079381b54af.png`,
-    socials: [{ label: 'Facebook', href: 'https://www.facebook.com/share/17ZLKcGFEH/' }],
+    portrait: `${TEAM_IMG}/cto.jpg`,
+    socials: [
+      { label: 'Facebook', href: 'https://www.facebook.com/share/17ZLKcGFEH/' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dev-redoy123/' }
+    ],
   },
   {
     slug: 'nijwel-islam',
     name: 'Nijwel Islam',
     role: 'Senior Software Engineer',
     bio: 'Building the future, one feature at a time.',
-    portrait: `${TEAM_IMG}/45784250-b8bd-4e3c-b9fe-fd1eefe4a957.png`,
+    portrait: `${TEAM_IMG}/sse.png`,
   },
   {
     slug: 'sible-hossain',
     name: 'Sible Hossain',
     role: 'Affiliate Business Partner',
-    bio: 'A long-term, trusted affiliate partner supporting business development, client relationships and technology partnerships.',
-    portrait: `${TEAM_IMG}/5ea0f60d-fc32-408d-96a7-081e85c86e66.PNG`,
+    bio: 'Building Partnerships, Creating Shared Success.',
+    portrait: `${TEAM_IMG}/abp.png`,
   },
 ];
 

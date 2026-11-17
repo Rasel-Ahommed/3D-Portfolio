@@ -277,6 +277,102 @@ function Infra({ m }: { m: Mats }) {
   );
 }
 
+/* 09 — layered system architecture blueprint */
+function Architecture({ m }: { m: Mats }) {
+  const ref = useSpin(0.16);
+  const tiers = [-0.85, 0, 0.85];
+  const nodes = useMemo<THREE.Vector3[]>(
+    () =>
+      tiers.flatMap((y, t) =>
+        Array.from({ length: t === 1 ? 4 : 3 }, (_, i) => {
+          const a = (i / (t === 1 ? 4 : 3)) * Math.PI * 2 + t * 0.5;
+          return new THREE.Vector3(Math.cos(a) * 0.75, y + 0.08, Math.sin(a) * 0.75);
+        }),
+      ),
+    [],
+  );
+  const segs = useMemo(() => {
+    const s: number[] = [];
+    nodes.forEach((p, i) =>
+      nodes.forEach((q, j) => {
+        if (j > i && Math.abs(q.y - p.y) > 0.5 && Math.abs(q.y - p.y) < 1 && p.distanceTo(q) < 1.45) s.push(p.x, p.y, p.z, q.x, q.y, q.z);
+      }),
+    );
+    return s;
+  }, [nodes]);
+  const edges = useMemo(() => new THREE.EdgesGeometry(new THREE.BoxGeometry(2.1, 0.06, 2.1)), []);
+  useDispose(edges);
+  return (
+    <group ref={ref} rotation={[0.42, 0.5, 0]}>
+      {tiers.map((y, i) => (
+        <group key={y} position={[0, y, 0]}>
+          <mesh material={i === 1 ? m.metal : m.dark}>
+            <boxGeometry args={[2.1, 0.06, 2.1]} />
+          </mesh>
+          <lineSegments geometry={edges} material={m.line} />
+        </group>
+      ))}
+      {nodes.map((p, i) => (
+        <mesh key={i} position={p} material={i % 4 === 0 ? m.gold : m.metal}>
+          <boxGeometry args={[0.2, 0.16, 0.2]} />
+        </mesh>
+      ))}
+      <Lines segs={segs} mat={m.line} />
+    </group>
+  );
+}
+
+/* 10 — shield with lock and scanning ring */
+function Security({ m }: { m: Mats }) {
+  const ref = useRef<THREE.Group>(null);
+  const scan = useRef<THREE.Mesh>(null);
+  const shield = useMemo(() => {
+    const s = new THREE.Shape();
+    s.moveTo(0, 1.25);
+    s.bezierCurveTo(0.45, 1.05, 0.8, 1.02, 1.0, 1.0);
+    s.bezierCurveTo(1.0, 0.1, 0.75, -0.75, 0, -1.25);
+    s.bezierCurveTo(-0.75, -0.75, -1.0, 0.1, -1.0, 1.0);
+    s.bezierCurveTo(-0.8, 1.02, -0.45, 1.05, 0, 1.25);
+    const g = new THREE.ExtrudeGeometry(s, { depth: 0.22, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.05, bevelSegments: 3, curveSegments: 32 });
+    g.center();
+    return g;
+  }, []);
+  useDispose(shield);
+  useFrame((st) => {
+    const t = st.clock.elapsedTime;
+    if (ref.current) {
+      ref.current.rotation.y = Math.sin(t * 0.6) * 0.55;
+      ref.current.position.y = Math.sin(t * 0.8) * 0.06;
+    }
+    if (!scan.current) return;
+    scan.current.position.y = Math.sin(t * 1.2) * 0.95;
+    scan.current.scale.x = 0.55 + 0.45 * Math.cos(t * 1.2) ** 2;
+  });
+  return (
+    <group ref={ref}>
+      <mesh geometry={shield} material={m.metal} />
+      {/* lock */}
+      <group position={[0, -0.05, 0.2]}>
+        <RoundedBox args={[0.6, 0.48, 0.12]} radius={0.05} material={m.dark} position={[0, -0.12, 0]} />
+        <mesh position={[0, 0.2, 0]} material={m.gold}>
+          <torusGeometry args={[0.2, 0.045, 16, 40, Math.PI]} />
+        </mesh>
+        <mesh position={[0, -0.1, 0.07]} material={m.gold}>
+          <circleGeometry args={[0.06, 24]} />
+        </mesh>
+      </group>
+      <mesh ref={scan} position={[0, 0, 0.32]} material={m.gold}>
+        <planeGeometry args={[1.8, 0.02]} />
+      </mesh>
+      {[1.55, 1.75].map((r, i) => (
+        <mesh key={r} rotation={[Math.PI / 2.4, 0, i]} material={i ? m.dark : m.metal}>
+          <torusGeometry args={[r, 0.018, 8, 120, Math.PI * 1.3]} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 export const SERVICE_MODELS: Record<ServiceVisual, (p: { m: Mats }) => React.JSX.Element> = {
   software: Software,
   ai: AI,
@@ -286,4 +382,6 @@ export const SERVICE_MODELS: Record<ServiceVisual, (p: { m: Mats }) => React.JSX
   game: Game,
   media: Media,
   infra: Infra,
+  architecture: Architecture,
+  security: Security,
 };

@@ -1,0 +1,57 @@
+/* ==========================================================
+   Projects — cards orbiting a black hole
+   ========================================================== */
+.orbit { position: relative; margin-top: 8px; }
+.orbit__stage { position: relative; height: clamp(560px, 82vh, 860px); perspective: 1400px; touch-action: pan-y; user-select: none; cursor: grab; overflow: hidden; border-radius: 32px; }
+.orbit__stage:active { cursor: grabbing; }
+.orbit__stage::before { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 55% at 50% 50%, rgb(5 5 20 / 0) 0%, rgb(5 5 20 / 0.55) 70%, rgb(5 5 20 / 0.85) 100%); pointer-events: none; }
+.orbit__list { position: absolute; inset: 0; }
+.orbit__card { position: absolute; left: 50%; top: 50%; width: clamp(200px, 23vw, 330px); will-change: transform, filter, opacity; }
+.orbit__hint { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); pointer-events: none; animation: hint-pulse 2.8s ease-in-out infinite; }
+@keyframes hint-pulse { 50% { opacity: 0.4; } }
+
+/* orbit card */
+.ocard { display: block; border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: linear-gradient(180deg, #151827, #0b0b18); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.8); transition: border-color 0.4s, box-shadow 0.4s; -webkit-user-drag: none; }
+.ocard:hover, .ocard:focus-visible { border-color: var(--gold); box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.9), 0 0 0 1px var(--gold-line), 0 0 60px -10px rgb(244 180 0 / 0.35); }
+.ocard__media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); }
+.ocard__media img { pointer-events: none; }
+.ocard__body { padding: 16px 18px 18px; display: grid; gap: 6px; }
+.ocard__cat { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.ocard__title { font-size: clamp(0.98rem, 1.2vw, 1.15rem); line-height: 1.25; letter-spacing: -0.015em; }
+.ocard__client { font-size: var(--fs-micro); color: var(--muted); }
+.ocard__cta { margin-top: 6px; font-size: var(--fs-micro); font-weight: 600; color: var(--text); opacity: 0; transform: translateY(6px); transition: all 0.4s var(--ease); }
+.ocard:hover .ocard__cta, .ocard:focus-visible .ocard__cta { opacity: 1; transform: none; }
+@media (hover: none) { .ocard__cta { opacity: 1; transform: none; } }
+
+/* ---------- the black hole ---------- */
+.bh { position: absolute; left: 50%; top: 50%; width: clamp(170px, 22vw, 300px); aspect-ratio: 1; transform: translate(-50%, -50%); z-index: 100; pointer-events: none; }
+.bh > * { position: absolute; inset: 0; border-radius: 50%; }
+.bh__glow { inset: -90%; background: radial-gradient(circle, rgb(244 180 0 / 0.16) 0%, rgb(217 164 65 / 0.06) 32%, transparent 62%); animation: bh-breathe 7s ease-in-out infinite; }
+.bh__core { inset: 18%; background: radial-gradient(circle at 50% 50%, #000 60%, #02020a 72%, rgb(5 5 20 / 0) 74%); box-shadow: 0 0 0 1.5px rgb(255 214 120 / 0.85), 0 0 18px 2px rgb(244 180 0 / 0.55), 0 0 60px 6px rgb(244 180 0 / 0.18), inset 0 0 40px 10px #000; z-index: 2; }
+/* gravitationally lensed light bending over and under the hole */
+.bh__lens { inset: 6%; background: conic-gradient(from 200deg, transparent 0 10%, rgb(244 180 0 / 0.55) 22%, rgb(255 236 190 / 0.7) 28%, rgb(244 180 0 / 0.4) 36%, transparent 50%, rgb(217 164 65 / 0.35) 70%, transparent 85%); -webkit-mask: radial-gradient(circle, transparent 58%, #000 60%, #000 66%, transparent 70%); mask: radial-gradient(circle, transparent 58%, #000 60%, #000 66%, transparent 70%); filter: blur(1.5px); animation: bh-spin 14s linear infinite; z-index: 1; }
+/* accretion disk: a flattened spinning ring; the front half is drawn over the core */
+.bh__disk { inset: -55%; transform: scaleY(0.2) rotate(-8deg); border-radius: 50%; }
+.bh__disk i { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, rgb(244 180 0 / 0.95), rgb(255 236 190 / 0.9) 12%, rgb(217 164 65 / 0.5) 30%, rgb(244 180 0 / 0.15) 50%, rgb(217 164 65 / 0.55) 70%, rgb(255 214 120 / 0.95) 88%, rgb(244 180 0 / 0.95)); -webkit-mask: radial-gradient(circle, transparent 36%, #000 39%, #000 52%, rgb(0 0 0 / 0.4) 62%, transparent 70%); mask: radial-gradient(circle, transparent 36%, #000 39%, #000 52%, rgb(0 0 0 / 0.4) 62%, transparent 70%); filter: blur(2px) drop-shadow(0 0 12px rgb(244 180 0 / 0.6)); animation: bh-spin 9s linear infinite; }
+.bh__disk--back { z-index: 0; opacity: 0.75; }
+.bh__disk--front { z-index: 3; clip-path: inset(50% 0 0 0); }
+@keyframes bh-spin { to { transform: rotate(360deg); } }
+@keyframes bh-breathe { 50% { opacity: 0.65; transform: scale(0.96); } }
+@media (prefers-reduced-motion: reduce) { .bh * , .bh__disk i, .bh__lens { animation: none !important; } }
+
+/* text index under the orbit */
+.orbit-index { margin-top: clamp(40px, 5vw, 72px); border-top: 1px solid var(--border-soft); }
+.orbit-index a { display: grid; grid-template-columns: 48px minmax(0, 2fr) 1fr 1fr 32px; gap: 16px; align-items: center; padding: 20px 4px; border-bottom: 1px solid var(--border-soft); transition: background 0.4s, padding 0.5s var(--ease); }
+.orbit-index a:hover, .orbit-index a:focus-visible { background: rgb(244 180 0 / 0.04); padding-left: 14px; }
+.orbit-index__num { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--gold); }
+.orbit-index__title { font-weight: 600; font-size: 1.08rem; letter-spacing: -0.01em; }
+.orbit-index__meta { font-size: var(--fs-small); color: var(--muted); }
+.orbit-index__arrow { color: var(--gold); transition: transform 0.4s var(--ease); }
+.orbit-index a:hover .orbit-index__arrow { transform: translateX(6px); }
+@media (max-width: 760px) {
+  .orbit-index a { grid-template-columns: 36px 1fr 24px; }
+  .orbit-index__meta { display: none; }
+  .orbit__card { width: clamp(150px, 44vw, 220px); }
+  .ocard__body { padding: 12px 14px 14px; }
+  .orbit__stage { height: clamp(520px, 78vh, 680px); }
+}

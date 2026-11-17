@@ -24,7 +24,7 @@ function ServiceBlock({ s, i }: { s: Service; i: number }) {
       <div className="container">
         <div className="svc-block__grid">
           <div className="svc-block__text">
-            <span className="svc-block__index">{s.index} / 08</span>
+            <span className="svc-block__index">{s.index} / {String(services.length).padStart(2, '0')}</span>
             <SplitText id={`${s.slug}-title`} text={s.title} className="svc-block__title" />
             <Reveal>
               <p className="svc-block__desc">{s.description}</p>
@@ -104,7 +104,7 @@ export default function Services() {
   return (
     <div ref={root}>
       <Seo title="Services" description="Software & web development, AI & automation, mobile apps, UI/UX, SaaS, game development, AI media production and IT infrastructure from CHTS." />
-      <PageHero eyebrow="Services" title="Capabilities that *move* businesses forward." lead="Eight disciplines under one roof — each with its own craft, all delivered with the same commitment to clean code, elegant design and dependable support." crumbs={[{ to: '/services', label: 'Services' }]}>
+      <PageHero eyebrow="Services" title="Capabilities that *move* businesses forward." lead={`${services.length} disciplines under one roof — each with its own craft, all delivered with the same commitment to clean code, elegant design and dependable support.`} crumbs={[{ to: '/services', label: 'Services' }]}>
         <nav aria-label="Services on this page" className="jumpnav">
           {services.map((s) => (
             <Link key={s.slug} to={`/services#${s.slug}`}>

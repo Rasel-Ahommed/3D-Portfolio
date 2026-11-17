@@ -1,11 +1,12 @@
 import { useLocation } from 'react-router';
 import { SITE_URL, company } from '../../data';
 
-type Props = { title: string; description: string; image?: string; jsonLd?: object; noindex?: boolean };
+type Props = { title: string; description: string; image?: string; jsonLd?: object; noindex?: boolean; /** Path to use as canonical instead of the current URL, e.g. '/blog/my-post'. */ canonicalPath?: string; type?: 'website' | 'article' };
 
 /** React 19 hoists <title>, <meta> and <link> into <head> automatically. */
-export function Seo({ title, description, image = '/og-image.jpg', jsonLd, noindex }: Props) {
-  const { pathname } = useLocation();
+export function Seo({ title, description, image = '/og-image.jpg', jsonLd, noindex, canonicalPath, type }: Props) {
+  const location = useLocation();
+  const pathname = canonicalPath ?? location.pathname;
   const url = `${SITE_URL}${pathname === '/' ? '/' : pathname.replace(/\/$/, '')}`;
   const fullTitle = title.includes('CHTS') ? title : `${title} — CHTS`;
   const img = image.startsWith('http') ? image : `${SITE_URL}${image}`;
@@ -18,6 +19,7 @@ export function Seo({ title, description, image = '/og-image.jpg', jsonLd, noind
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
+      {type && <meta property="og:type" content={type} />}
       <meta property="og:image" content={img} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />

@@ -69,6 +69,21 @@ export function ServiceGlyph({ visual, className }: { visual: ServiceVisual; cla
         <path {...s} d="M22 40h8M46 46h8M70 52h8" />
       </>
     ),
+    architecture: (
+      <>
+        <path {...s} d="M18 72 50 86 82 72 50 58Z M18 52 50 66 82 52 50 38Z M18 32 50 46 82 32 50 18Z" />
+        <path {...s} strokeDasharray="2 4" d="M50 46v12 M50 66v6 M30 37v20 M70 37v20" />
+        <circle {...g} cx="50" cy="32" r="3.5" />
+      </>
+    ),
+    security: (
+      <>
+        <path {...s} d="M50 12c9 5 19 7 28 7 0 30-10 52-28 67C32 71 22 49 22 19c9 0 19-2 28-7Z" />
+        <rect {...s} x="40" y="46" width="20" height="16" rx="2" />
+        <path {...s} d="M44 46v-5a6 6 0 0 1 12 0v5" />
+        <circle {...g} cx="50" cy="54" r="2.5" />
+      </>
+    ),
   };
   return (
     <svg viewBox="0 0 100 100" className={className} aria-hidden>

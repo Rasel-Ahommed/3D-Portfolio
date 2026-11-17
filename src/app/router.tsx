@@ -12,6 +12,8 @@ const ProductDetails = lazy(() => import('../pages/ProductDetails/ProductDetails
 const Team = lazy(() => import('../pages/Team/Team'));
 const Careers = lazy(() => import('../pages/Careers/Careers'));
 const Contact = lazy(() => import('../pages/Contact/Contact'));
+const Blog = lazy(() => import('../pages/Blog/Blog'));
+const BlogDetails = lazy(() => import('../pages/BlogDetails/BlogDetails'));
 const Legal = lazy(() => import('../pages/Legal/Legal'));
 const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
 
@@ -29,6 +31,8 @@ export const router = createBrowserRouter([
       { path: '/products', element: page(<Products />) },
       { path: '/products/:slug', element: page(<ProductDetails />) },
       { path: '/team', element: page(<Team />) },
+      { path: '/blog', element: page(<Blog />) },
+      { path: '/blog/:slug', element: page(<BlogDetails />) },
       { path: '/careers', element: page(<Careers />) },
       { path: '/contact', element: page(<Contact />) },
       { path: '/privacy', element: page(<Legal kind="privacy" />) },

@@ -1,14 +1,16 @@
 import { useDeferredValue, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { Link } from 'react-router';
 import { Seo } from '../../components/common/Seo';
 import { PageHero } from '../../components/common/PageHero';
 import { FilterBar } from '../../components/ui/FilterBar';
-import { ProjectCard } from '../../components/cards/ProjectCard';
+import { usePortalDim } from '../../hooks/usePortalDim';
+import { ProjectOrbit } from '../../components/projects/ProjectOrbit';
 import { CtaBand } from '../../components/common/CtaBand';
 import { Button } from '../../components/ui/Button';
 import { categoriesOf, projects, type ProjectCategory } from '../../data';
 
 export default function Projects() {
+  usePortalDim(0.85);
   const [cat, setCat] = useState<ProjectCategory | 'All'>('All');
   const [q, setQ] = useState('');
   const query = useDeferredValue(q.trim().toLowerCase());
@@ -31,15 +33,23 @@ export default function Projects() {
             </label>
           </div>
           <p className="result-count" aria-live="polite">{list.length} project{list.length === 1 ? '' : 's'}</p>
-          <motion.div layout className="grid-projects">
-            <AnimatePresence mode="popLayout">
+          {list.length > 0 && <ProjectOrbit projects={list} />}
+
+          {list.length > 0 && (
+            <ol className="orbit-index" aria-label="Project index">
               {list.map((p, i) => (
-                <motion.div key={p.slug} layout initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.5, delay: i * 0.04 }}>
-                  <ProjectCard project={p} index={i} />
-                </motion.div>
+                <li key={p.slug}>
+                  <Link to={`/projects/${p.slug}`}>
+                    <span className="orbit-index__num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="orbit-index__title">{p.title}</span>
+                    <span className="orbit-index__meta">{p.category}</span>
+                    <span className="orbit-index__meta">{p.client ?? '—'}</span>
+                    <span className="orbit-index__arrow" aria-hidden>→</span>
+                  </Link>
+                </li>
               ))}
-            </AnimatePresence>
-          </motion.div>
+            </ol>
+          )}
           {list.length === 0 && (
             <div className="empty">
               <p>No projects match your search.</p>

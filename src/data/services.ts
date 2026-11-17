@@ -173,4 +173,47 @@ export const services: Service[] = [
     ],
     visual: 'infra',
   },
+  {
+    slug: 'system-architecture-design',
+    index: '09',
+    title: 'System Architecture Design',
+    short: 'Blueprints for software that stays fast, secure and maintainable as it grows.',
+    description:
+      'We design the structure behind your product before a line of production code is written — services, data models, integrations and infrastructure — so the system can grow in users, features and team size without a rewrite.',
+    capabilities: [
+      'Solution & software architecture',
+      'Modular monolith & microservice design',
+      'Database & data-flow modelling',
+      'API, integration & event design',
+      'Architecture reviews of existing systems',
+    ],
+    benefits: [
+      'Fewer costly rewrites as you scale',
+      'Clear technical documentation for your team',
+      'Realistic estimates built on a sound plan',
+    ],
+    visual: 'architecture',
+    relatedProducts: ['multi-vendor-ecommerce', 'educational-institute-management-system'],
+  },
+  {
+    slug: 'cyber-security',
+    index: '10',
+    title: 'Cyber Security',
+    short: 'Practical protection for your applications, servers and customer data.',
+    description:
+      'We help you find and close security gaps across your software and infrastructure — from secure coding and application hardening to server configuration, backups and a plan for when something goes wrong.',
+    capabilities: [
+      'Security audits & vulnerability assessment',
+      'Secure code review (OWASP Top 10)',
+      'Authentication, access control & encryption',
+      'Server, firewall & SSL configuration',
+      'Backup, monitoring & incident-response planning',
+    ],
+    benefits: [
+      'Lower risk of breaches and downtime',
+      'Customer data handled responsibly',
+      'A prioritised, actionable fix list — not just a report',
+    ],
+    visual: 'security',
+  },
 ];

@@ -48,12 +48,12 @@ export function ProjectShowcase() {
   return (
     <section ref={ref} className="section work" data-chapter="3" aria-labelledby="work-title">
       <div className="work__pin">
-        <div className="container work__head">
+        <div className="container">
           <div>
             <Eyebrow index="03">Featured projects</Eyebrow>
             <SplitText id="work-title" text="Work built *with* our clients." />
           </div>
-          <FilterBar id="home-work" label="Filter projects by category" options={cats} value={filter} onChange={setFilter} />
+          {/* <FilterBar id="home-work" label="Filter projects by category" options={cats} value={filter} onChange={setFilter} /> */}
         </div>
         <div className="work__viewport">
           <div className="work__track">

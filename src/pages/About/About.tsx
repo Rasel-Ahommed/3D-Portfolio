@@ -26,7 +26,10 @@ export default function About() {
             <Logo theme="light" link={false} width={220} />
           </div>
           <div>
-            <p className="eyebrow eyebrow--dark"><span className="eyebrow__dot" aria-hidden />Our story</p>
+            <p className="eyebrow eyebrow--dark">
+              {/* <span className="eyebrow__dot" aria-hidden /> */}
+              Our story
+              </p>
             <SplitText id="story-title" text="Founded on a promise of *quality* and long-term relationships." className="story__title" />
             <Reveal className="story__body">
               <p>
@@ -44,11 +47,17 @@ export default function About() {
       <section className="section mv" aria-label="Mission and vision">
         <div className="container mv__grid">
           <Reveal className="mv__item" id="mission">
-            <p className="eyebrow"><span className="eyebrow__dot" aria-hidden />Mission</p>
+            <p className="eyebrow">
+              {/* <span className="eyebrow__dot" aria-hidden /> */}
+              Mission
+              </p>
             <p className="mv__text">{company.mission}</p>
           </Reveal>
           <Reveal className="mv__item" id="vision">
-            <p className="eyebrow"><span className="eyebrow__dot" aria-hidden />Vision</p>
+            <p className="eyebrow">
+              {/* <span className="eyebrow__dot" aria-hidden /> */}
+              Vision
+              </p>
             <p className="mv__text">{company.vision}</p>
           </Reveal>
         </div>

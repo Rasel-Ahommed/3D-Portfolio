@@ -63,7 +63,9 @@ export type ServiceVisual =
   | 'saas'
   | 'game'
   | 'media'
-  | 'infra';
+  | 'infra'
+  | 'architecture'
+  | 'security';
 
 export interface Service {
   slug: string;
@@ -94,6 +96,31 @@ export interface Testimonial {
   designation: string;
   company: string;
   videoUrl?: string;
+}
+
+/** A block of article body content — keeps posts renderable from data/CMS/API. */
+export type BlogBlock =
+  | { type: 'p'; text: string }
+  | { type: 'h2'; text: string; id: string }
+  | { type: 'h3'; text: string }
+  | { type: 'list'; items: string[]; ordered?: boolean }
+  | { type: 'quote'; text: string; cite?: string }
+  | { type: 'callout'; title: string; text: string };
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  /** ISO date, e.g. '2026-11-10' */
+  date: string;
+  readMinutes: number;
+  author: string;
+  cover?: string;
+  featured?: boolean;
+  tags?: string[];
+  /** Full article body. Only the detail-page article has this today. */
+  body?: BlogBlock[];
 }
 
 export interface JobOpening {

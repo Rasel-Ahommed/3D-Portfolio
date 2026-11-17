@@ -76,16 +76,20 @@ export const socials = [
 
 export const technologies = [
   { name: 'React', group: 'Frontend' },
+  { name: 'Next', group: 'Frontend' },
   { name: 'TypeScript', group: 'Frontend' },
   { name: 'JavaScript', group: 'Frontend' },
   { name: 'Three.js', group: 'Frontend' },
   { name: 'Laravel', group: 'Backend' },
   { name: 'PHP', group: 'Backend' },
   { name: 'Python', group: 'Backend' },
+  { name: 'Codeignitor', group: 'Backend' },
   { name: 'Node.js', group: 'Backend' },
   { name: 'MySQL', group: 'Data' },
+  { name: 'MongoDB', group: 'Data' },
   { name: 'Kotlin', group: 'Mobile' },
   { name: 'Android', group: 'Mobile' },
+  { name: 'Flutter', group: 'Mobile' },
 ];
 
 export const advantages = [
