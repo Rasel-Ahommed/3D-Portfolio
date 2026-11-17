@@ -1,122 +1,73 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router';
+import { useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { Seo } from '../../components/common/Seo';
 import { PageHero } from '../../components/common/PageHero';
 import { Reveal } from '../../components/animations/Reveal';
-import { SplitText } from '../../components/animations/SplitText';
 import { ServiceGlyph } from '../../components/ui/ServiceGlyph';
-import { Button } from '../../components/ui/Button';
-import { ProductCard } from '../../components/cards/ProductCard';
-import { ProjectCard } from '../../components/cards/ProjectCard';
+import { HeroCollage } from '../../components/blocks/HeroCollage';
+import { EngagementModels } from '../../components/blocks/EngagementModels';
+import { TimeZones } from '../../components/blocks/TimeZones';
+import { Faq } from '../../components/blocks/Faq';
 import { CtaBand } from '../../components/common/CtaBand';
-import { ScrollTrigger } from '../../animations/gsap';
-import { sceneState, useUi } from '../../scenes/store';
-import { useHashScroll } from '../../hooks/useHashScroll';
-import { products, projects, services, type Service } from '../../data';
+import { SITE_URL, services, servicesFaq } from '../../data';
 import { cn } from '../../utils/cn';
 
-function ServiceBlock({ s, i }: { s: Service; i: number }) {
-  const webgl = useUi((st) => st.webgl);
-  const relProducts = products.filter((p) => s.relatedProducts?.includes(p.slug));
-  const relProjects = projects.filter((p) => s.relatedProjects?.includes(p.slug));
-  return (
-    <section id={s.slug} className={cn('svc-block', i % 2 === 1 && 'svc-block--flip')} aria-labelledby={`${s.slug}-title`} data-index={i}>
-      <div className="container">
-        <div className="svc-block__grid">
-          <div className="svc-block__text">
-            <span className="svc-block__index">{s.index} / {String(services.length).padStart(2, '0')}</span>
-            <SplitText id={`${s.slug}-title`} text={s.title} className="svc-block__title" />
-            <Reveal>
-              <p className="svc-block__desc">{s.description}</p>
-              <div className="svc-block__cols">
-                <div>
-                  <h3>Capabilities</h3>
-                  <ul className="checklist">
-                    {s.capabilities.map((c) => (
-                      <li key={c}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3>Benefits</h3>
-                  <ul className="checklist checklist--muted">
-                    {s.benefits.map((c) => (
-                      <li key={c}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <Button to="/contact" variant="ghost">Discuss {s.title.split(' ')[0]} project</Button>
-            </Reveal>
-          </div>
-          <div className={cn('svc-block__visual', `motif--${s.visual}`)}>
-            <div className="svc-block__anchor" data-anchor />
-            {webgl !== 'on' && <ServiceGlyph visual={s.visual} className="svc__fallback" />}
-          </div>
-        </div>
-        {(relProducts.length > 0 || relProjects.length > 0) && (
-          <div className="related">
-            <h3 className="related__title">Related work</h3>
-            <div className="related__grid">
-              {relProjects.map((p) => (
-                <ProjectCard key={p.slug} project={p} />
-              ))}
-              {relProducts.map((p) => (
-                <ProductCard key={p.slug} product={p} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
+/** Services overview. Each service has its own page at /services/:slug (better for SEO). */
 export default function Services() {
-  useHashScroll();
-  const root = useRef<HTMLDivElement>(null);
+  const { hash } = useLocation();
+  const navigate = useNavigate();
 
-  // hand the shared 3D service stage to whichever service is in view
+  // old /services#slug links → /services/slug
   useEffect(() => {
-    const blocks = root.current?.querySelectorAll<HTMLElement>('.svc-block');
-    if (!blocks) return;
-    sceneState.portalDim = 1;
-    const triggers = Array.from(blocks).map((b) =>
-      ScrollTrigger.create({
-        trigger: b,
-        start: 'top 60%',
-        end: 'bottom 40%',
-        onToggle: (self) => {
-          if (!self.isActive) return;
-          sceneState.serviceAnchor = b.querySelector('[data-anchor]');
-          sceneState.activeService = Number(b.dataset.index);
-        },
-      }),
-    );
-    return () => {
-      triggers.forEach((t) => t.kill());
-      sceneState.portalDim = 0;
-      sceneState.serviceAnchor = null;
-      sceneState.activeService = -1;
-    };
-  }, []);
+    const slug = decodeURIComponent(hash.slice(1));
+    if (slug && services.some((s) => s.slug === slug)) navigate(`/services/${slug}`, { replace: true });
+  }, [hash, navigate]);
 
   return (
-    <div ref={root}>
-      <Seo title="Services" description="Software & web development, AI & automation, mobile apps, UI/UX, SaaS, game development, AI media production and IT infrastructure from CHTS." />
-      <PageHero eyebrow="Services" title="Capabilities that *move* businesses forward." lead={`${services.length} disciplines under one roof — each with its own craft, all delivered with the same commitment to clean code, elegant design and dependable support.`} crumbs={[{ to: '/services', label: 'Services' }]}>
-        <nav aria-label="Services on this page" className="jumpnav">
-          {services.map((s) => (
-            <Link key={s.slug} to={`/services#${s.slug}`}>
-              <span>{s.index}</span> {s.title}
-            </Link>
-          ))}
-        </nav>
-      </PageHero>
-      {services.map((s, i) => (
-        <ServiceBlock key={s.slug} s={s} i={i} />
-      ))}
+    <>
+      <Seo
+        title="Services"
+        description="Custom software, AI automation, mobile apps, UI/UX, SaaS, system architecture, cyber security and IT infrastructure — from CHTS, Dhaka, for clients in the UK, Australia and the Middle East."
+        jsonLd={{
+          '@type': 'ItemList',
+          itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.title, url: `${SITE_URL}/services/${s.slug}` })),
+        }}
+      />
+      <PageHero
+        eyebrow="Services"
+        title="Everything you need to *build* and run software."
+        lead={`${services.length} disciplines under one roof — from the first architecture sketch to the server it runs on, delivered by one accountable team.`}
+        crumbs={[{ to: '/services', label: 'Services' }]}
+        visual={<HeroCollage variant="glyphs" glyphs={services.map((s) => s.visual)} />}
+      />
+
+      <section className="section section--tight" aria-label="All services">
+        <div className="container">
+          <Reveal as="ul" className="svc-grid" stagger={0.05}>
+            {services.map((s) => (
+              <li key={s.slug} data-reveal>
+                <Link to={`/services/${s.slug}`} className={cn('svc-card', `motif--${s.visual}`)}>
+                  <span className="svc-card__top">
+                    <span className="svc-card__index">{s.index}</span>
+                    <ServiceGlyph visual={s.visual} className="svc-card__glyph" />
+                  </span>
+                  <h2 className="svc-card__title">{s.title}</h2>
+                  <p className="svc-card__text">{s.short}</p>
+                  {s.proof && <p className="svc-card__proof">{s.proof}</p>}
+                  <span className="svc-card__more">
+                    Explore<span className="sr-only"> {s.title}</span> <i aria-hidden>→</i>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      <EngagementModels />
+      <TimeZones />
+      <Faq items={servicesFaq} />
       <CtaBand />
-    </div>
+    </>
   );
 }

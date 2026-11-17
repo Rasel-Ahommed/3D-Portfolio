@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useDispose } from './useDispose';
 import { portalFragment, portalVertex } from './shaders';
-import { GOLD, GOLD_2, PORTAL_KEYS, sampleKeys } from './timeline';
+import { GOLD, GOLD_2, PORTAL_KEYS, sampleKeys, weight } from './timeline';
 import { live } from './Director';
 import { sceneState } from './store';
 
@@ -44,10 +44,10 @@ export function PortalScene() {
   );
 
   const metal = useMemo(
-    () => new THREE.MeshPhysicalMaterial({ color: '#1b1d29', metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.25, envMapIntensity: 1.35 }),
+    () => new THREE.MeshPhysicalMaterial({ transparent: true, color: '#1b1d29', metalness: 1, roughness: 0.3, clearcoat: 0.6, clearcoatRoughness: 0.25, envMapIntensity: 1.35 }),
     [],
   );
-  const darkMetal = useMemo(() => new THREE.MeshStandardMaterial({ color: '#0d0e17', metalness: 0.95, roughness: 0.42, envMapIntensity: 1 }), []);
+  const darkMetal = useMemo(() => new THREE.MeshStandardMaterial({ transparent: true, color: '#0d0e17', metalness: 0.95, roughness: 0.42, envMapIntensity: 1 }), []);
 
   useDispose(energyMat, metal, darkMetal);
 
@@ -89,12 +89,19 @@ export function PortalScene() {
 
     const scale = THREE.MathUtils.lerp(THREE.MathUtils.lerp(s, 0.95, live.inner), 1, live.contact) * (narrow ? 0.72 : 1);
     const reveal = sceneState.reveal;
+    // The portal is a hero/finale device only: visible at chapter 0 and 5 on the
+    // homepage, as the centrepiece on Contact, and nowhere else.
+    const homeVis = Math.max(weight(live.chapter, 0, 0.85), weight(live.chapter, 5, 0.5));
+    const vis = THREE.MathUtils.clamp(homeVis * (1 - live.inner) * (1 - live.contact) + live.contact, 0, 1);
+    sceneState.portalVisibility = vis;
+    metal.opacity = darkMetal.opacity = vis;
+    metal.depthWrite = darkMetal.depthWrite = vis > 0.98;
     g.scale.setScalar(scale * (0.86 + 0.14 * reveal));
 
     const intensity = THREE.MathUtils.lerp(THREE.MathUtils.lerp(k, 0.55, live.inner), 0.85, live.contact) * (1 - 0.8 * live.dim);
     uniforms.uTime.value += dt;
     uniforms.uReveal.value = THREE.MathUtils.clamp(reveal * 1.25 - 0.1, 0, 1.2);
-    uniforms.uIntensity.value = intensity * Math.min(1, reveal * 1.6);
+    uniforms.uIntensity.value = intensity * Math.min(1, reveal * 1.6) * vis;
     metal.opacity = 1;
 
     if (tilt.current) {
@@ -104,9 +111,9 @@ export function PortalScene() {
     if (arcs.current) {
       arcs.current.children.forEach((c, i) => (c.rotation.z = t * (0.08 + i * 0.045) * (i % 2 ? -1 : 1) + i));
     }
-    if (edgeMat.current) edgeMat.current.color.copy(GOLD).multiplyScalar(0.6 + 1.4 * intensity * reveal * (0.9 + 0.1 * Math.sin(t * 2)));
-    if (light.current) light.current.intensity = 14 * intensity * reveal;
-    g.visible = reveal > 0.001;
+    if (edgeMat.current) edgeMat.current.color.copy(GOLD).multiplyScalar((0.6 + 1.4 * intensity * reveal * (0.9 + 0.1 * Math.sin(t * 2))) * vis);
+    if (light.current) light.current.intensity = 14 * intensity * reveal * vis;
+    g.visible = reveal > 0.001 && vis > 0.01;
   });
 
   return (

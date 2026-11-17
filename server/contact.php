@@ -47,6 +47,7 @@ $phone   = $clean($data['phone'] ?? '', 40);
 $company = $clean($data['company'] ?? '', 160);
 $service = $clean($data['service'] ?? '', 120);
 $budget  = $clean($data['budget'] ?? '', 60);
+$timeline = $clean($data['timeline'] ?? '', 60);
 $details = $clean($data['details'] ?? '', 5000);
 
 if (!empty($data['website'])) respond(200, ['success' => true]); // honeypot
@@ -74,6 +75,7 @@ $lines = [
     "Company: " . ($company ?: '—'),
     "Service: " . ($service ?: '—'),
     "Budget:  " . ($budget ?: '—'),
+    "Timeline: " . ($timeline ?: '—'),
     '',
     $details,
     '',

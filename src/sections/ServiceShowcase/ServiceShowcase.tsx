@@ -63,7 +63,8 @@ export function ServiceShowcase() {
                 <div className="svc-item__body">
                   <h3 className="svc-item__title">{s.title}</h3>
                   <p className="svc-item__short">{s.short}</p>
-                  <Link to={`/services#${s.slug}`} className="svc-item__link">
+                  {s.proof && <p className="svc-item__proof">{s.proof}</p>}
+                  <Link to={`/services/${s.slug}`} className="svc-item__link">
                     Learn more<span className="sr-only"> about {s.title}</span> →
                   </Link>
                 </div>

@@ -46,9 +46,11 @@ export function ParticleScene({ count }: { count: number }) {
   useDispose(mat, geo);
 
   useFrame((_, dt) => {
-    uniforms.uTime.value += dt;
+    // drift almost stops when the portal is gone, so nothing moves behind body text
+    const vis = sceneState.portalVisibility;
+    uniforms.uTime.value += dt * (0.15 + 0.85 * vis);
     uniforms.uPixelRatio.value = dpr;
-    const target = Math.min(1, sceneState.reveal * 1.4) * (0.85 + 0.25 * Math.max(0, 1 - Math.abs(live.chapter - 4)));
+    const target = Math.min(1, sceneState.reveal * 1.4) * (0.22 + 0.78 * vis);
     uniforms.uOpacity.value = THREE.MathUtils.lerp(uniforms.uOpacity.value, target * (1 - live.inner * 0.35), 0.05);
     if (ref.current) {
       ref.current.rotation.y = live.time * 0.01 + live.pointer.x * 0.05;

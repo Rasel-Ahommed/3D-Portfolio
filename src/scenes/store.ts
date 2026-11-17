@@ -9,7 +9,13 @@ import type { Quality } from '../utils/env';
  * `chapter` is a continuous value along the homepage story:
  *   0 hero · 1 introduction · 2 services · 3 projects · 4 technology · 5 contact
  */
-export type SceneMode = 'home' | 'inner' | 'contact';
+/**
+ * home    — full scroll story; portal only in the hero and the final CTA
+ * contact — portal as the page's centrepiece
+ * stage   — no portal; the canvas only renders 3D illustrations (service pages)
+ * plain   — canvas switched off; a quiet static background is shown instead
+ */
+export type SceneMode = 'home' | 'contact' | 'stage' | 'plain';
 
 export const sceneState = {
   mode: 'home' as SceneMode,
@@ -24,6 +30,8 @@ export const sceneState = {
   quality: 'high' as Quality,
   /** 0 → 1: pushes the portal back so other 3D content can take focus. */
   portalDim: 0,
+  /** Written by the portal each frame (0–1); other layers follow it. */
+  portalVisibility: 1,
 };
 
 /* ---------- Small reactive store for UI-level flags ---------- */

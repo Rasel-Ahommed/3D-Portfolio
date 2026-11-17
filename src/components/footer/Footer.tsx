@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { Logo } from '../ui/Logo';
 import { navLinks } from '../navigation/navLinks';
-import { company, contact, services, socials } from '../../data';
+import { company, contact, profiles, services, socials } from '../../data';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -31,7 +31,7 @@ export function Footer() {
             <h3>Services</h3>
             <ul>
               {services.map((s) => (
-                <li key={s.slug}><Link to={`/services#${s.slug}`}>{s.title}</Link></li>
+                <li key={s.slug}><Link to={`/services/${s.slug}`}>{s.title}</Link></li>
               ))}
             </ul>
           </nav>
@@ -52,9 +52,13 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="footer__big" aria-hidden>
-          <span>Beyond</span> <em>digital</em> <span>possibilities.</span>
-        </div>
+        {profiles.length > 0 && (
+          <ul className="footer__profiles" aria-label="Find us on">
+            {profiles.map((p) => (
+              <li key={p.href}><a href={p.href} target="_blank" rel="noopener noreferrer">{p.label} ↗</a></li>
+            ))}
+          </ul>
+        )}
 
         <div className="footer__bottom">
           <p>© {year} {company.name}. All rights reserved.</p>

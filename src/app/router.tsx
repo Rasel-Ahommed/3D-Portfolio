@@ -5,6 +5,7 @@ import { Layout } from './Layout';
 const Home = lazy(() => import('../pages/Home/Home'));
 const About = lazy(() => import('../pages/About/About'));
 const Services = lazy(() => import('../pages/Services/Services'));
+const ServiceDetails = lazy(() => import('../pages/ServiceDetails/ServiceDetails'));
 const Projects = lazy(() => import('../pages/Projects/Projects'));
 const ProjectDetails = lazy(() => import('../pages/ProjectDetails/ProjectDetails'));
 const Products = lazy(() => import('../pages/Products/Products'));
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: '/', element: page(<Home />) },
       { path: '/about', element: page(<About />) },
       { path: '/services', element: page(<Services />) },
+      { path: '/services/:slug', element: page(<ServiceDetails />) },
       { path: '/projects', element: page(<Projects />) },
       { path: '/projects/:slug', element: page(<ProjectDetails />) },
       { path: '/products', element: page(<Products />) },

@@ -35,6 +35,14 @@ export interface Project {
   /** Only verified, client-approved results. */
   outcome?: string;
   status?: 'Live' | 'In development' | 'Ongoing support';
+  /** Headline result, e.g. { value: '40%', label: 'faster order processing' }. Verified numbers only. */
+  metric?: { value: string; label: string };
+  /** e.g. '10 weeks' */
+  timeline?: string;
+  /** e.g. 'United Kingdom' */
+  country?: string;
+  /** How screenshots are framed: browser window (default) or phone. */
+  device?: 'browser' | 'phone';
   testimonialId?: string;
   draft?: boolean;
 }
@@ -52,6 +60,12 @@ export interface Product {
   technologies?: string[];
   benefits?: string[];
   demoUrl?: string;
+  /** e.g. 'From $49' — shown on cards and detail page when set. */
+  price?: string;
+  /** CodeCanyon / Codester / other marketplace listing. */
+  marketplaceUrl?: string;
+  marketplaceName?: string;
+  faq?: { q: string; a: string }[];
   draft?: boolean;
 }
 
@@ -78,6 +92,9 @@ export interface Service {
   visual: ServiceVisual;
   relatedProjects?: string[];
   relatedProducts?: string[];
+  /** One-line proof, e.g. '12 projects delivered'. Verified numbers only. */
+  proof?: string;
+  faq?: { q: string; a: string }[];
 }
 
 export interface TeamMember {
@@ -96,6 +113,13 @@ export interface Testimonial {
   designation: string;
   company: string;
   videoUrl?: string;
+  photo?: string;
+  logo?: string;
+  country?: string;
+  /** A concrete outcome, e.g. 'Launched in 6 weeks'. */
+  result?: string;
+  /** 1–5, only if the client gave a rating. */
+  rating?: number;
 }
 
 /** A block of article body content — keeps posts renderable from data/CMS/API. */

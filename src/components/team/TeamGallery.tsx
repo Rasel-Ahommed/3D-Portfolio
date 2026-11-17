@@ -175,9 +175,10 @@ export function TeamGallery({ members }: { members: TeamMember[] }) {
               }}
             >
               <div className="tgal__face tgal__face--front">
-                <SmartImage src={m.portrait} alt={dup ? '' : `Portrait of ${m.name}`} seed={m.name} />
+                <SmartImage src={m.portrait} alt={`Portrait of ${m.name}, ${m.role} at CHTS`} seed={`team-${m.slug}`} ratio={4 / 5} sizes="(max-width: 700px) 34vw, 240px" />
                 <div className="tgal__label">
-                  <span>{m.name}</span>
+                  <strong>{m.name}</strong>
+                  <span>{m.role}</span>
                 </div>
                 <div className="tgal__details">
                   <p className="tgal__role">{m.role}</p>
@@ -204,7 +205,7 @@ export function TeamGallery({ members }: { members: TeamMember[] }) {
         </div>
       </div>
       <p className="tgal__hint" aria-hidden>
-        {active >= 0 ? 'Paused — move away to resume' : 'Hover a portrait to pause · drag to spin'}
+        {active >= 0 ? 'Paused — move away to resume' : 'Hover a portrait for details · drag to spin'}
       </p>
     </div>
   );

@@ -6,6 +6,10 @@ import { technologies } from '../../data';
 
 const GROUPS = ['Frontend', 'Backend', 'Data', 'Mobile'];
 
+/** Short monogram badge for each technology (no third-party logos). */
+const MONO: Record<string, string> = { React: 'Re', TypeScript: 'TS', JavaScript: 'JS', 'Three.js': '3D', Laravel: 'Lv', PHP: 'Php', Python: 'Py', 'Node.js': 'No', MySQL: 'SQL', Kotlin: 'Kt', Android: 'An' };
+const monogram = (n: string) => MONO[n] ?? n.slice(0, 2);
+
 /** Technology ecosystem: an SVG constellation linking real tools to their layer. */
 export function Technology() {
   const ref = useRef<HTMLElement>(null);
@@ -63,8 +67,10 @@ export function Technology() {
             ))}
             {layout.nodes.map((n) => (
               <g key={n.name} className="tech__node">
-                <rect x={n.x - n.name.length * 4.6 - 16} y={n.y - 17} width={n.name.length * 9.2 + 32} height="34" rx="17" />
-                <text x={n.x} y={n.y + 5} textAnchor="middle">{n.name}</text>
+                <rect x={n.x - n.name.length * 4.6 - 30} y={n.y - 18} width={n.name.length * 9.2 + 56} height="36" rx="18" />
+                <circle className="tech__icon" cx={n.x - n.name.length * 4.6 - 12} cy={n.y} r="11" />
+                <text className="tech__mono" x={n.x - n.name.length * 4.6 - 12} y={n.y + 4} textAnchor="middle">{monogram(n.name)}</text>
+                <text x={n.x + 10} y={n.y + 5} textAnchor="middle">{n.name}</text>
               </g>
             ))}
           </svg>
@@ -72,6 +78,7 @@ export function Technology() {
         <ul className="tech__list" aria-label="Technologies">
           {technologies.map((t) => (
             <li key={t.name}>
+              <span className="tech__chip-icon" aria-hidden>{monogram(t.name)}</span>
               <span>{t.name}</span>
               <i>{t.group}</i>
             </li>
