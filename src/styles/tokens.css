@@ -3,26 +3,16 @@
    ========================================================== */
 :root {
   /* brand */
-  /* Official palette (from the supplied brand sheet). To adopt an "owned" gold,
-     change these two lines only, e.g. --gold: #f2b33d; --gold-2: #d9a441. */
   --gold: #f4b400;
   --gold-2: #d9a441;
   --gold-soft: rgb(244 180 0 / 0.12);
   --gold-line: rgb(244 180 0 / 0.35);
 
-  /* states */
-  --success: #3ecf8e;
-  --success-bg: rgb(62 207 142 / 0.1);
-  --error: #ff8a7a;
-  --error-bg: rgb(255 138 122 / 0.1);
-  --focus: #ffd34d;
-
-  /* surfaces — rule: two surfaces (base + card) */
+  /* surfaces */
   --bg: #050514;
   --bg-2: #0b0b18;
   --bg-3: #111827;
   --card: #151827;
-  --surface: rgb(11 11 24 / 0.86); /* translucent card over the background */
   --logo-plate: #000015; /* sampled from the official dark-theme logo artwork */
 
   /* text */
@@ -37,33 +27,19 @@
   --font-serif: 'Instrument Serif', 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
 
-  /* Locked type scale: 12 / 14 / 16 / 20 / 28 / 40 / 64 / 96 px.
-     Large steps scale fluidly DOWN on small screens and never exceed their token. */
-  --fs-12: 0.75rem;
-  --fs-14: 0.875rem;
-  --fs-16: 1rem;
-  --fs-20: 1.25rem;
-  --fs-28: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
-  --fs-40: clamp(1.75rem, 1.25rem + 1.8vw, 2.5rem);
-  --fs-64: clamp(2.5rem, 1.6rem + 3.6vw, 4rem);
-  --fs-96: clamp(3rem, 1.7rem + 6.2vw, 6rem);
-
-  /* semantic aliases */
-  --fs-hero: var(--fs-96);
-  --fs-display: var(--fs-64);
-  --fs-h2: var(--fs-64);
-  --fs-h3: var(--fs-28);
-  --fs-lead: var(--fs-20);
-  --fs-body: var(--fs-16);
-  --fs-small: var(--fs-14);
-  --fs-micro: var(--fs-12);
-  --measure: 65ch;
-  --label-tracking: 0.08em;
+  --fs-hero: clamp(3.2rem, 9.6vw, 10rem);
+  --fs-display: clamp(2.5rem, 6vw, 6rem);
+  --fs-h2: clamp(2.1rem, 4.6vw, 4.4rem);
+  --fs-h3: clamp(1.35rem, 2vw, 1.75rem);
+  --fs-lead: clamp(1.1rem, 1.45vw, 1.35rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-micro: 0.75rem;
 
   /* layout */
   --container: 1440px;
   --gutter: clamp(20px, 4.2vw, 64px);
-  --section: clamp(72px, 9vw, 128px);
+  --section: clamp(24px, 4vw, 48px);
   --radius: 22px;
   --radius-sm: 12px;
   --nav-h: 84px;

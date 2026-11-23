@@ -3,14 +3,15 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router';
 import { SplitText } from '../animations/SplitText';
 import { Eyebrow } from '../ui/Eyebrow';
+import { useUi } from '../../scenes/store';
 
 type Crumb = { to: string; label: string };
 
-export function PageHero({ eyebrow, title, lead, crumbs, children, visual }: { eyebrow: string; title: string; lead?: ReactNode; crumbs?: Crumb[]; children?: ReactNode; /** Page-specific visual shown beside the title on wide screens. */ visual?: ReactNode }) {
+export function PageHero({ eyebrow, title, lead, crumbs, children }: { eyebrow: string; title: string; lead?: ReactNode; crumbs?: Crumb[]; children?: ReactNode }) {
+  const intro = useUi((s) => s.introDone);
   return (
-    <section className={visual ? 'page-hero page-hero--visual' : 'page-hero'}>
-      <div className="container page-hero__grid">
-        <div className="page-hero__text">
+    <section className="page-hero">
+      <div className="container">
         {crumbs && (
           <nav aria-label="Breadcrumb" className="crumbs">
             <ol>
@@ -22,19 +23,17 @@ export function PageHero({ eyebrow, title, lead, crumbs, children, visual }: { e
           </nav>
         )}
         <Eyebrow>{eyebrow}</Eyebrow>
-        <SplitText as="h1" text={title} trigger="mount" className="page-hero__title" />
+        <SplitText as="h1" text={title} trigger="intro" className="page-hero__title" />
         {lead && (
-          <motion.p className="page-hero__lead" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.p className="page-hero__lead" initial={{ opacity: 0, y: 20 }} animate={intro ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}>
             {lead}
           </motion.p>
         )}
         {children && (
-          <motion.div className="page-hero__extra" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.35 }}>
+          <motion.div className="page-hero__extra" initial={{ opacity: 0 }} animate={intro ? { opacity: 1 } : {}} transition={{ duration: 1, delay: 0.7 }}>
             {children}
           </motion.div>
         )}
-        </div>
-        {visual && <div className="page-hero__visual">{visual}</div>}
       </div>
     </section>
   );

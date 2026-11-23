@@ -13,42 +13,36 @@ import { TableOfContents } from '../../components/blog/TableOfContents';
 import { ShareLinks } from '../../components/blog/ShareLinks';
 import { usePortalDim } from '../../hooks/usePortalDim';
 import { CtaBand } from '../../components/common/CtaBand';
-import NotFound from '../NotFound/NotFound';
-import { SITE_URL, blogBodies, company, formatDate, posts, type BlogBlock, type BlogPost } from '../../data';
+import { DETAIL_POST, SITE_URL, company, formatDate, posts, type BlogPost } from '../../data';
 
 /**
- * Resolves a post by slug. Body comes from the post itself or src/data/blog-content.ts.
- * To load from a CMS/API later, replace this function (keep the same return shape).
+ * Resolves the post for a slug.
+ * TODAY: every slug shows DETAIL_POST (the only article with a body).
+ * TO MAKE DYNAMIC: return posts.find((p) => p.slug === slug && p.body) — or fetch
+ * from your CMS/API — and render <NotFound /> when nothing matches.
  */
-function getPost(slug: string | undefined): (BlogPost & { body: BlogBlock[] }) | null {
-  const post = posts.find((p) => p.slug === slug);
-  if (!post) return null;
-  const body = post.body ?? blogBodies[post.slug];
-  return body ? { ...post, body } : null;
+function getPost(_slug: string | undefined): BlogPost {
+  return DETAIL_POST;
 }
 
 export default function BlogDetails() {
   usePortalDim(0.9);
   const { slug } = useParams();
   const post = getPost(slug);
-  const body = post?.body;
-  const toc = useMemo(() => (body ?? []).flatMap((b) => (b.type === 'h2' ? [{ id: b.id, text: b.text }] : [])), [body]);
+  const body = post.body ?? [];
+  const toc = useMemo(() => body.flatMap((b) => (b.type === 'h2' ? [{ id: b.id, text: b.text }] : [])), [body]);
+  const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const url = `${SITE_URL}/blog/${post.slug}`;
+
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
-  if (!post || !body) return <NotFound />;
-
-  // same category first, then newest
-  const related = posts
-    .filter((p) => p.slug !== post.slug)
-    .sort((a, b) => Number(b.category === post.category) - Number(a.category === post.category) || b.date.localeCompare(a.date))
-    .slice(0, 3);
-  const url = `${SITE_URL}/blog/${post.slug}`;
 
   return (
     <>
       <Seo
         title={post.title}
         description={post.excerpt}
+        canonicalPath={`/blog/${post.slug}`}
         type="article"
         jsonLd={{
           '@type': 'BlogPosting',
@@ -73,7 +67,7 @@ export default function BlogDetails() {
             </ol>
           </nav>
           <Eyebrow>{post.category}</Eyebrow>
-          <SplitText as="h1" text={post.title} trigger="mount" className="post-hero__title" stagger={0.04} />
+          <SplitText as="h1" text={post.title} trigger="intro" className="post-hero__title" stagger={0.04} />
           <Reveal className="post-meta">
             <span className="post-meta__avatar" aria-hidden>CH</span>
             <span>
@@ -94,7 +88,7 @@ export default function BlogDetails() {
       </header>
 
       <div className="container post-cover">
-        <RevealImage src={post.cover} alt={`Cover image for “${post.title}”`} seed={`blog-${post.slug}`} ratio="21 / 9" priority />
+        <RevealImage src={post.cover} alt={post.title} seed={`blog-${post.slug}`} ratio="21 / 9" priority />
       </div>
 
       <section className="section section--tight">

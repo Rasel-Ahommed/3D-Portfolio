@@ -5,7 +5,6 @@ export type ContactPayload = {
   company?: string;
   service?: string;
   budget?: string;
-  timeline?: string;
   details: string;
 };
 
@@ -52,7 +51,6 @@ export function mailtoFor(data: ContactPayload, to: string) {
     data.company && `Company: ${data.company}`,
     data.service && `Service: ${data.service}`,
     data.budget && `Budget: ${data.budget}`,
-    data.timeline && `Timeline: ${data.timeline}`,
     '',
     data.details,
   ].filter((l): l is string => typeof l === 'string');

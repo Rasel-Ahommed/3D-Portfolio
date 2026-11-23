@@ -5,7 +5,6 @@ import { PageHero } from '../../components/common/PageHero';
 import { FilterBar } from '../../components/ui/FilterBar';
 import { ProductCard } from '../../components/cards/ProductCard';
 import { CtaBand } from '../../components/common/CtaBand';
-import { HeroCollage } from '../../components/blocks/HeroCollage';
 import { categoriesOf, products, type ProjectCategory } from '../../data';
 
 export default function Products() {
@@ -24,7 +23,6 @@ export default function Products() {
         title="Software we *own*, run and improve."
         lead="Ready systems and SaaS products built by CHTS. Each can be deployed quickly and customised to your business — try the live demos."
         crumbs={[{ to: '/products', label: 'Products' }]}
-        visual={<HeroCollage variant="collage" images={products.map((p) => ({ src: p.screenshot, alt: `${p.name} — screenshot`, seed: p.slug }))} />}
       />
       <section className="section section--tight" aria-label="Product list">
         <div className="container">
@@ -34,8 +32,8 @@ export default function Products() {
           <motion.div layout className="grid-products">
             <AnimatePresence mode="popLayout">
               {list.map((p, i) => (
-                <motion.div key={p.slug} className={i === 0 ? 'grid-products__lead' : undefined} layout initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.5, delay: i * 0.03 }}>
-                  <ProductCard product={p} featured={i === 0} />
+                <motion.div key={p.slug} layout initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.5, delay: i * 0.03 }}>
+                  <ProductCard product={p} />
                 </motion.div>
               ))}
             </AnimatePresence>

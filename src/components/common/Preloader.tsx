@@ -11,21 +11,13 @@ export function Preloader({ ready }: { ready: Promise<unknown> }) {
   const root = useRef<HTMLDivElement>(null);
   const num = useRef<HTMLSpanElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
-  // The preloader is a homepage moment only. Landing directly on any other page
-  // shows content immediately — no headline is ever hidden behind a loader there.
-  const [isHome] = useState(() => window.location.pathname === '/');
-  const [gone, setGone] = useState(!isHome);
+  const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    if (!isHome) {
-      sceneState.reveal = 1;
-      uiStore.set({ introDone: true });
-      return;
-    }
     const reduced = prefersReducedMotion();
     const counter = { v: 0 };
     let done = false;
-    const minTime = new Promise((r) => setTimeout(r, reduced ? 150 : 800));
+    const minTime = new Promise((r) => setTimeout(r, reduced ? 200 : 1300));
     const fonts = document.fonts?.ready ?? Promise.resolve();
     const set = () => {
       if (num.current) num.current.textContent = String(Math.round(counter.v)).padStart(3, '0');
@@ -33,15 +25,13 @@ export function Preloader({ ready }: { ready: Promise<unknown> }) {
     };
     const crawl = gsap.to(counter, { v: 82, duration: 2.4, ease: 'power2.out', onUpdate: set });
 
-    // never hold the page hostage to the 3D bundle: give it at most ~1.2 s
-    const capped = Promise.race([ready.catch(() => null), new Promise((r) => setTimeout(r, 700))]);
-    Promise.all([minTime, fonts, capped]).then(() => {
+    Promise.all([minTime, fonts, ready.catch(() => null)]).then(() => {
       if (done) return;
       done = true;
       crawl.kill();
       const tl = gsap.timeline({ onComplete: () => setGone(true) });
-      tl.to(counter, { v: 100, duration: reduced ? 0.1 : 0.3, ease: 'power2.inOut', onUpdate: set })
-        .to(root.current, { autoAlpha: 0, duration: reduced ? 0.2 : 0.5, ease: 'power2.inOut' }, '+=0.05')
+      tl.to(counter, { v: 100, duration: reduced ? 0.1 : 0.5, ease: 'power2.inOut', onUpdate: set })
+        .to(root.current, { autoAlpha: 0, duration: reduced ? 0.2 : 0.9, ease: 'power2.inOut' }, '+=0.15')
         .add(() => {
           if (reduced) {
             sceneState.reveal = 1;
@@ -50,14 +40,14 @@ export function Preloader({ ready }: { ready: Promise<unknown> }) {
           }
           // 1. fade in portal  2. reveal energy  3. particles  4. typography
           gsap.to(sceneState, { reveal: 1, duration: 3.2, ease: 'power2.inOut' });
-          uiStore.set({ introDone: true });
+          gsap.delayedCall(1.1, () => uiStore.set({ introDone: true }));
         }, '-=0.5');
     });
     return () => {
       done = true;
       crawl.kill();
     };
-  }, [ready, isHome]);
+  }, [ready]);
 
   if (gone) return null;
   return (

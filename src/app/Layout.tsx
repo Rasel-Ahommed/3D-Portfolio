@@ -15,8 +15,7 @@ const EASE = [0.76, 0, 0.24, 1] as const;
 function modeFor(path: string): SceneMode {
   if (path === '/') return 'home';
   if (path.startsWith('/contact')) return 'contact';
-  if (/^\/services\/[^/]+/.test(path)) return 'stage'; // service detail: 3D illustration, no portal
-  return 'plain';
+  return 'inner';
 }
 
 /** Keeps the outgoing page rendered while it animates out. */

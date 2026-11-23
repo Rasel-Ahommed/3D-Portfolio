@@ -11,7 +11,7 @@ import type { Quality } from '../utils/env';
  * The single, shared WebGL canvas. Fixed behind the HTML content, never
  * contains essential text, and degrades gracefully on weaker devices.
  */
-export default function Experience({ quality: initial, active = true }: { quality: Quality; active?: boolean }) {
+export default function Experience({ quality: initial }: { quality: Quality }) {
   const [quality, setQuality] = useState<Quality>(initial);
   const [fx, setFx] = useState(initial === 'high');
   const dpr: [number, number] = quality === 'high' ? [1, 1.75] : quality === 'medium' ? [1, 1.4] : [0.8, 1.2];
@@ -20,22 +20,10 @@ export default function Experience({ quality: initial, active = true }: { qualit
     sceneState.quality = quality;
   }, [quality]);
 
-  // Pages without 3D: let the scene settle/fade, then stop rendering entirely.
-  const [frameloop, setFrameloop] = useState<'always' | 'never'>('always');
-  useEffect(() => {
-    if (active) {
-      setFrameloop('always');
-      return;
-    }
-    const id = setTimeout(() => setFrameloop('never'), 1000);
-    return () => clearTimeout(id);
-  }, [active]);
-
   return (
     <Canvas
       className="experience"
       dpr={dpr}
-      frameloop={frameloop}
       gl={{ antialias: quality !== 'low', powerPreference: 'high-performance', alpha: false, stencil: false }}
       camera={{ fov: 38, near: 0.1, far: 80, position: [0, 0, 16] }}
       onCreated={({ gl }) => {

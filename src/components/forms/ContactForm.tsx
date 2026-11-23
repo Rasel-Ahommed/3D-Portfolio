@@ -9,7 +9,6 @@ type Errors = Partial<Record<keyof ContactPayload, string>>;
 type Status = 'idle' | 'sending' | 'sent' | 'error' | 'unconfigured';
 
 const BUDGETS = ['Under $1,000', '$1,000 – $5,000', '$5,000 – $15,000', '$15,000+', 'Not sure yet'];
-const TIMELINES = ['As soon as possible', 'Within 1 month', '1–3 months', '3+ months', 'Just exploring'];
 
 function validate(d: ContactPayload): Errors {
   const e: Errors = {};
@@ -20,7 +19,7 @@ function validate(d: ContactPayload): Errors {
   return e;
 }
 
-export function ContactForm({ showBudget = true, compact = false }: { showBudget?: boolean; compact?: boolean }) {
+export function ContactForm({ showBudget = false, compact = false }: { showBudget?: boolean; compact?: boolean }) {
   const uid = useId();
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
@@ -39,7 +38,6 @@ export function ContactForm({ showBudget = true, compact = false }: { showBudget
       company: String(fd.get('company') ?? '') || undefined,
       service: String(fd.get('service') ?? '') || undefined,
       budget: String(fd.get('budget') ?? '') || undefined,
-      timeline: String(fd.get('timeline') ?? '') || undefined,
       details: String(fd.get('details') ?? ''),
     };
     const e = validate(data);
@@ -102,15 +100,6 @@ export function ContactForm({ showBudget = true, compact = false }: { showBudget
             <label htmlFor={`${uid}-budget`}>Project budget <span className="field__opt">(optional)</span></label>
           </div>
         )}
-        <div className="field field--select">
-          <select id={`${uid}-timeline`} name="timeline" defaultValue="">
-            <option value="">Not decided</option>
-            {TIMELINES.map((t) => (
-              <option key={t}>{t}</option>
-            ))}
-          </select>
-          <label htmlFor={`${uid}-timeline`}>Timeline <span className="field__opt">(optional)</span></label>
-        </div>
         <div className={cn('field field--area', errors.details && 'has-error')}>
           <textarea id={`${uid}-details`} name="details" rows={5} placeholder=" " required aria-invalid={!!errors.details} aria-describedby={errors.details ? `${uid}-details-err` : undefined} />
           <label htmlFor={`${uid}-details`}>Project details</label>

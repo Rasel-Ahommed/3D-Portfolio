@@ -31,24 +31,19 @@ export function SplitText({ as: Tag = 'h2', text, className, trigger = 'scroll',
         return;
       }
       if (!armed) {
-        gsap.set(words, { yPercent: 70, opacity: 0 });
+        gsap.set(words, { yPercent: 115 });
         return;
       }
-      // Headlines must be readable fast: an h1 finishes in ≤ 0.8 s, other headings ≤ 1.2 s.
-      const isH1 = scope.tagName === 'H1';
-      const dur = isH1 ? 0.55 : 0.9;
-      const budget = isH1 ? 0.8 : 1.2;
-      const st = Math.min(stagger, Math.max(0, budget - dur - delay) / Math.max(1, words.length - 1));
       gsap.fromTo(
         words,
-        { yPercent: isH1 ? 70 : 110, opacity: isH1 ? 0 : 1 },
+        { yPercent: 115, rotate: 4 },
         {
           yPercent: 0,
-          opacity: 1,
-          duration: dur,
-          stagger: st,
+          rotate: 0,
+          duration: 1.3,
+          stagger,
           delay,
-          ease: 'power3.out',
+          ease: 'expo.out',
           scrollTrigger: trigger === 'scroll' ? { trigger: scope, start: 'top 88%', once: true } : undefined,
         },
       );

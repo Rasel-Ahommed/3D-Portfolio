@@ -1,8 +1,7 @@
 import { Eyebrow } from '../../components/ui/Eyebrow';
 import { SplitText } from '../../components/animations/SplitText';
 import { Reveal } from '../../components/animations/Reveal';
-import { StatsBar } from '../../components/blocks/StatsBar';
-import { advantages, company, processTimelines, visibleStats } from '../../data';
+import { advantages, company, products } from '../../data';
 
 export function WhyChts() {
   return (
@@ -11,15 +10,20 @@ export function WhyChts() {
         <div className="why__aside">
           <Eyebrow index="05">Why CHTS</Eyebrow>
           <SplitText id="why-title" text="Built for business. *Supported* for the long run." />
-          <div className="why__card">
-            <p className="label-h">Where we work</p>
-            <ul className="why__markets">
-              {company.markets.map((m) => (
-                <li key={m}>{m}</li>
-              ))}
-            </ul>
-            {visibleStats.length > 4 && <StatsBar offset={4} className="stats--stack" />}
-          </div>
+          <Reveal as="dl" className="facts">
+            <div data-reveal>
+              <dt>Roadmap delivered</dt>
+              <dd>48<small>hrs</small></dd>
+            </div>
+            <div data-reveal>
+              <dt>Ready products</dt>
+              <dd>{products.length}</dd>
+            </div>
+            <div data-reveal>
+              <dt>Markets served</dt>
+              <dd className="facts__text">{company.markets.join(' · ')}</dd>
+            </div>
+          </Reveal>
         </div>
         <Reveal as="ol" className="why__list" stagger={0.08}>
           {advantages.map((a, i) => (
@@ -37,7 +41,6 @@ export function WhyChts() {
             <li key={p.step} data-reveal>
               <span className="process__step">{p.step}</span>
               <h3>{p.title}</h3>
-              {processTimelines[p.title] && <p className="process__time">{processTimelines[p.title]}</p>}
               <p>{p.text}</p>
             </li>
           ))}
