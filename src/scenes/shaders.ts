@@ -100,34 +100,3 @@ export const particleFragment = /* glsl */ `
     #include <colorspace_fragment>
   }
 `;
-
-export const panelFragment = /* glsl */ `
-  uniform float uOpacity;
-  uniform float uTime;
-  uniform vec3 uGold;
-  uniform float uSeed;
-  varying vec2 vUv;
-  float sdRoundRect(vec2 p, vec2 b, float r){ vec2 q = abs(p) - b + r; return length(max(q,0.0)) + min(max(q.x,q.y),0.0) - r; }
-  void main(){
-    vec2 p = vUv - 0.5;
-    float d = sdRoundRect(p, vec2(0.5), 0.06);
-    if (d > 0.0) discard;
-    float edge = smoothstep(0.012, 0.0, abs(d));
-    // faux interface: header bar + rows
-    float header = step(0.36, p.y) * step(p.y, 0.43) * step(-0.42, p.x) * step(p.x, -0.05 + 0.2 * fract(uSeed * 7.0));
-    float rows = 0.0;
-    for (int i = 0; i < 4; i++) {
-      float y = 0.2 - float(i) * 0.14;
-      float w = 0.15 + 0.6 * fract(uSeed * (3.0 + float(i)));
-      rows += step(y - 0.025, p.y) * step(p.y, y + 0.025) * step(-0.42, p.x) * step(p.x, -0.42 + w);
-    }
-    float scan = smoothstep(0.02, 0.0, abs(p.y - (fract(uTime * 0.12 + uSeed) - 0.5)));
-    vec3 col = vec3(0.04, 0.045, 0.09);
-    col += vec3(0.6, 0.62, 0.7) * rows * 0.25;
-    col = mix(col, uGold, header * 0.9);
-    col += uGold * edge * 0.9 + uGold * scan * 0.08;
-    float alpha = (0.55 + edge * 0.45) * uOpacity;
-    gl_FragColor = vec4(col, alpha);
-    #include <colorspace_fragment>
-  }
-`;

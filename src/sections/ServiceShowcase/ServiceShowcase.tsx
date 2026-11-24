@@ -9,7 +9,13 @@ import { services } from '../../data';
 import { cn } from '../../utils/cn';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-/** Interactive service showcase — list on one side, 3D illustration on a sticky stage. */
+/** Services left off the homepage showcase (they stay on the full Services page). */
+const HIDDEN_ON_HOME = new Set(['game-development', 'ai-image-video-production']);
+const featured = services.filter((s) => !HIDDEN_ON_HOME.has(s.slug));
+const pad = (n: number) => String(n).padStart(2, '0');
+const TOTAL = pad(featured.length);
+
+/** Interactive service showcase — refined list on one side, 3D illustration on a sticky stage. */
 export function ServiceShowcase() {
   const [active, setActive] = useState(0);
   const stage = useRef<HTMLDivElement>(null);
@@ -18,7 +24,7 @@ export function ServiceShowcase() {
   const wide = useMediaQuery('(min-width: 961px)');
   // 3D on wide screens; a static glyph on the sticky mobile stage keeps phones light
   const use3D = webgl === 'on' && wide;
-  const current = services[active];
+  const current = featured[active];
 
   useEffect(() => {
     if (!use3D) return;
@@ -30,9 +36,10 @@ export function ServiceShowcase() {
     };
   }, [use3D]);
 
+  // the 3D stage indexes the full services list, so translate from this shorter list
   useEffect(() => {
-    sceneState.activeService = active;
-  }, [active]);
+    sceneState.activeService = services.indexOf(current);
+  }, [current]);
 
   // scrolling through the list activates each service (works for touch too)
   useEffect(() => {
@@ -51,25 +58,40 @@ export function ServiceShowcase() {
           eyebrow="What we do"
           index="02"
           titleId="svc-title"
-          title={`${services.length} disciplines. *One* engineering standard.`}
-          lead="From custom software and AI automation to architecture, security and infrastructure — each discipline has its own craft, and every one is held to the same bar for quality and support."
+          title={`${featured.length} disciplines. *One* engineering standard.`}
+          lead="Each discipline has its own craft. Every one is held to the same bar for quality, security and long-term support."
           align="split"
         />
         <div className="svc__layout">
           <ol ref={list} className="svc__list">
-            {services.map((s, i) => (
-              <li key={s.slug} className={cn('svc-item', `svc-item--${s.visual}`, i === active && 'is-active')} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>
-                <span className="svc-item__index">{s.index}</span>
-                <div className="svc-item__body">
-                  <h3 className="svc-item__title">{s.title}</h3>
-                  <p className="svc-item__short">{s.short}</p>
-                  <Link to={`/services#${s.slug}`} className="svc-item__link">
-                    Learn more<span className="sr-only"> about {s.title}</span> →
-                  </Link>
-                </div>
-                <ServiceGlyph visual={s.visual} className="svc-item__glyph" />
-              </li>
-            ))}
+            {featured.map((s, i) => {
+              const on = i === active;
+              return (
+                <li key={s.slug} className={cn('svc-item', on && 'is-active')} onMouseEnter={() => setActive(i)}>
+                  <h3 className="svc-item__heading">
+                    <button type="button" className="svc-item__head" aria-expanded={on} onClick={() => setActive(i)} onFocus={() => setActive(i)}>
+                      <span className="svc-item__index">{pad(i + 1)}</span>
+                      <span className="svc-item__icon" aria-hidden>
+                        <ServiceGlyph visual={s.visual} />
+                      </span>
+                      <span className="svc-item__title">{s.title}</span>
+                      <span className="svc-item__arrow" aria-hidden>
+                        ↗
+                      </span>
+                    </button>
+                  </h3>
+                  <div className="svc-item__body">
+                    <div className="svc-item__inner">
+                      <p className="svc-item__short">{s.short}</p>
+                      <Link to={`/services#${s.slug}`} className="svc-item__link" tabIndex={on ? 0 : -1}>
+                        Explore service<span className="sr-only">: {s.title}</span>
+                        <span aria-hidden> →</span>
+                      </Link>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ol>
 
           <div className="svc__stage-wrap">
@@ -78,7 +100,7 @@ export function ServiceShowcase() {
               {!use3D && <ServiceGlyph key={current.visual} visual={current.visual} className="svc__fallback" />}
               <div className="svc__stage-meta">
                 <span className="svc__stage-count">
-                  {current.index} <i>/ {String(services.length).padStart(2, '0')}</i>
+                  {pad(active + 1)} <i>/ {TOTAL}</i>
                 </span>
                 <AnimatePresence mode="wait">
                   <motion.div key={current.slug} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }}>

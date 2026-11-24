@@ -104,7 +104,7 @@ export function PortalScene() {
     if (arcs.current) {
       arcs.current.children.forEach((c, i) => (c.rotation.z = t * (0.08 + i * 0.045) * (i % 2 ? -1 : 1) + i));
     }
-    if (edgeMat.current) edgeMat.current.color.copy(GOLD).multiplyScalar(0.6 + 1.4 * intensity * reveal * (0.9 + 0.1 * Math.sin(t * 2)));
+    if (edgeMat.current) edgeMat.current.color.copy(GOLD).multiplyScalar(0.2 + 1.8 * intensity * reveal * (0.9 + 0.1 * Math.sin(t * 2))); // same peak in the hero, dims with the portal
     if (light.current) light.current.intensity = 14 * intensity * reveal;
     g.visible = reveal > 0.001;
   });

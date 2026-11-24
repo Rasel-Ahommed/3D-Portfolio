@@ -23,12 +23,13 @@ export const CONTACT_KEY: Key = { cam: [0, 0, 9], look: [0, 0, 0] };
 
 /** Portal placement per chapter: [x, y, z, scale, intensity]. Desktop values; x is scaled on narrow screens. */
 export const PORTAL_KEYS: [number, number, number, number, number][] = [
-  [0, 0, 0, 1, 1],
-  [0, 0, 0, 1.06, 0.75],
-  [-3.4, 0.4, -2.5, 0.8, 0.28],
-  [0, 0, -4.5, 0.9, 0.55],
-  [0, 0, -7, 0.7, 0.35],
-  [0, 0.15, 0, 1.08, 0.95],
+  [0, 0, 0, 1, 1], // hero — full strength
+  // after the hero the portal is a quiet backdrop, so the content stays readable
+  [0, 0, 0, 1.06, 0.16], // who we are
+  [-3.4, 0.4, -2.5, 0.8, 0.09], // what we do
+  [0, 0, -4.5, 0.9, 0.08], // projects
+  [0, 0, -7, 0.7, 0.1], // technology → careers
+  [0, 0.15, 0, 1.08, 0.15], // contact
 ];
 
 const ease = (t: number) => t * t * (3 - 2 * t);

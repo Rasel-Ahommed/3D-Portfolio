@@ -8,7 +8,7 @@ export function ProductCard({ product, className, featured }: { product: Product
   return (
     <article className={cn('prod', featured && 'prod--featured', className)}>
       <Link to={`/products/${product.slug}`} className="prod__media" tabIndex={-1} aria-hidden>
-        <div className="prod__chrome"><i /><i /><i /></div>
+        <div className="prod__chrome"><i /><i /><i />{product.demoUrl && <span>{product.demoUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>}</div>
         <SmartImage src={product.screenshot} alt={`${product.name} screenshot`} seed={product.slug} />
       </Link>
       <div className="prod__body">

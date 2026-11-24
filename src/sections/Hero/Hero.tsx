@@ -41,7 +41,7 @@ export function Hero() {
         <SplitText as="h1" id="hero-title" className="hero__title" text="Beyond *Digital* Possibilities." trigger="intro" stagger={0.09} />
         <div className="hero__row">
           <motion.p className="hero__lead" {...fade(0.5)}>
-            We engineer intelligent digital experiences, innovative software and technology solutions that move businesses forward.
+            Custom software, AI automation and SaaS products for businesses in the UK, Australia and the Middle East. 12+ products shipped from Dhaka.
           </motion.p>
           <motion.div className="hero__ctas" {...fade(0.7)}>
             <Button to="/projects" size="lg">Explore Our Work</Button>

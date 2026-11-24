@@ -1,12 +1,29 @@
 /* ---------- ABOUT ---------- */
-.story { position: relative; z-index: 1; background: #ffffff; color: #0b0b18; padding-block: clamp(80px, 11vw, 160px); }
+/* Our story — dark editorial band, solid so the 3D background stays behind it */
+.story {
+  position: relative; z-index: 1; color: var(--text); padding-block: clamp(80px, 11vw, 160px);
+  background:
+    radial-gradient(60% 80% at 15% 30%, rgb(244 180 0 / 0.05), transparent 70%),
+    linear-gradient(180deg, #070716, #0a0a1c);
+  border-block: 1px solid var(--border-soft);
+}
 .story__grid { display: grid; grid-template-columns: 0.8fr 1.4fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
 .story__brand { position: sticky; top: calc(var(--nav-h) + 40px); }
-.story__brand .logo-plate--light { padding: 0; background: #fff; }
-.story__title { font-size: var(--fs-h2); max-width: 16ch; color: #050514; }
-.story__title .accent { color: #8a6400; }
-.story__body { margin-top: 40px; display: grid; gap: 20px; max-width: 60ch; font-size: 1.1rem; color: #3b3e4d; }
-.story .pending { color: #3b3e4d; }
+/* the card is the logo's own plate colour (#000015), so the artwork sits seamlessly inside it */
+.story__brand-card {
+  display: grid; place-items: center; padding: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 44px); border-radius: 28px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--logo-plate), var(--logo-plate)) padding-box,
+    linear-gradient(150deg, rgb(244 180 0 / 0.4), rgb(255 255 255 / 0.06) 35%, rgb(255 255 255 / 0.04) 70%, rgb(244 180 0 / 0.2)) border-box;
+  box-shadow: 0 40px 90px -45px rgb(244 180 0 / 0.25), 0 30px 70px -40px rgb(0 0 0 / 0.8);
+}
+.story__brand .logo-plate--dark { padding: 0; box-shadow: none; }
+.story__brand .logo-plate img { width: 100%; max-width: 300px; height: auto; }
+.story__title { font-size: var(--fs-h2); max-width: 16ch; color: var(--text); }
+.story__title .accent { color: var(--gold); }
+.story__body { margin-top: 40px; display: grid; gap: 20px; max-width: 60ch; font-size: 1.1rem; color: var(--text-2); }
+.story .pending { color: var(--muted); }
 @media (max-width: 900px) { .story__grid { grid-template-columns: 1fr; } .story__brand { position: static; } }
 
 .mv__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: 28px; overflow: hidden; }

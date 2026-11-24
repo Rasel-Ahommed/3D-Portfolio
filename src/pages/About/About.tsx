@@ -19,14 +19,16 @@ export default function About() {
       <Seo title="About CHTS" description={`${company.description} ${company.mission}`} />
       <PageHero eyebrow="About CHTS" title="A technology partner *built* on quality." lead={company.description} crumbs={[{ to: '/about', label: 'About' }]} />
 
-      {/* Our story — light editorial band uses the light-theme logo on white */}
+      {/* Our story — dark editorial band; the official dark-theme logo sits on its own matching plate */}
       <section className="story" aria-labelledby="story-title">
         <div className="container story__grid">
           <div className="story__brand">
-            <Logo theme="light" link={false} width={220} />
+            <div className="story__brand-card">
+              <Logo theme="dark" link={false} width={300} />
+            </div>
           </div>
           <div>
-            <p className="eyebrow eyebrow--dark">
+            <p className="eyebrow">
               {/* <span className="eyebrow__dot" aria-hidden /> */}
               Our story
               </p>

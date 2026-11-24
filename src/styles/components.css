@@ -181,9 +181,6 @@
   display: inline-block;
   flex-shrink: 0;
 }
-.eyebrow--dark {
-  color: #4a4d5c;
-}
 .section-head {
   margin-bottom: clamp(48px, 7vw, 96px);
 }
@@ -477,6 +474,10 @@ img.smart-img.is-loaded {
   background: #2a2c3a;
 }
 .prod__chrome span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   margin-left: 12px;
   font-family: var(--font-mono);
   font-size: 11px;

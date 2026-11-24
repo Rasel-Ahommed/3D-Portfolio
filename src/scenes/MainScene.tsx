@@ -2,7 +2,6 @@ import { Environment, Lightformer } from '@react-three/drei';
 import { PortalScene } from './PortalScene';
 import { ParticleScene } from './ParticleScene';
 import { NetworkScene } from './NetworkScene';
-import { PanelsScene } from './PanelsScene';
 import { ServiceStage } from './ServiceStage';
 import { CameraController } from './CameraController';
 import { Director } from './Director';
@@ -34,7 +33,6 @@ export function MainScene({ quality }: { quality: Quality }) {
       <PortalScene />
       <ParticleScene count={PARTICLES[quality]} />
       <NetworkScene nodes={quality === 'low' ? 50 : 90} />
-      <PanelsScene />
       <ServiceStage />
     </>
   );

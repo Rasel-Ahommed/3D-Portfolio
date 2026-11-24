@@ -70,7 +70,7 @@ export function ProjectShowcase() {
     >
       <div className="work__pin">
         <div className="container">
-          <div>
+          <div className="work__intro">
             <Eyebrow index="03">Featured projects</Eyebrow>
             <SplitText id="work-title" text="Work built *with* our clients." />
           </div>
