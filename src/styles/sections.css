@@ -536,14 +536,17 @@
 
 /* ---------- FEATURED WORK ---------- */
 .work {
+  /* the pin already reserves room for the nav, so the section's own top padding is redundant */
+  padding-top: 0;
   padding-bottom: 0;
 }
 .work__pin {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-block: calc(var(--nav-h) + 12px) 48px;
+  /* top-aligned (just below the fixed nav) so there's no tall empty band above the heading */
+  justify-content: flex-start;
+  padding-block: calc(var(--nav-h) + 16px) 48px;
 }
 .work__head {
   display: flex;
@@ -594,6 +597,7 @@
 }
 @media (max-width: 1023px) {
   .work {
+    padding-top: var(--section); /* no pin on smaller screens, so the normal section spacing returns */
     padding-bottom: var(--section);
   }
   .work__pin {
@@ -1172,7 +1176,7 @@
 
 /* ---------- CONTACT CTA ---------- */
 .cta {
-  padding-top: clamp(140px, 22vw, 320px);
+  padding-top: clamp(56px, 7vw, 120px);
 }
 .cta__head {
   text-align: center;

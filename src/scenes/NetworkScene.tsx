@@ -69,8 +69,8 @@ export function NetworkScene({ nodes = 90 }: { nodes?: number }) {
     const w = Math.max(weight(live.chapter, 4, 1.1), weight(live.chapter, 2, 0.8) * 0.22) * (1 - live.inner) * (1 - live.contact);
     uniforms.uTime.value += dt;
     // kept quiet so it stays a backdrop behind the projects / technology content
-    uniforms.uOpacity.value = w * 0.45;
-    if (lineMat.current) lineMat.current.opacity = w * 0.13;
+    uniforms.uOpacity.value = w * 0.28;
+    if (lineMat.current) lineMat.current.opacity = w * 0.08;
     const g = group.current;
     if (g) {
       g.visible = w > 0.01;

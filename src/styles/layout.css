@@ -244,15 +244,6 @@ main {
     border-color 0.4s;
   border-bottom: 1px solid transparent;
 }
-.nav.is-scrolled {
-  background: rgb(5 5 20 / 0.86);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom-color: var(--border-soft);
-}
-.nav.is-hidden {
-  transform: translateY(-100%);
-}
 .nav__inner {
   height: 100%;
   max-width: var(--container);
@@ -263,46 +254,77 @@ main {
   justify-content: space-between;
   gap: 24px;
 }
+/* links grouped in one rounded pill */
 .nav__links {
   display: flex;
-  gap: clamp(14px, 2vw, 34px);
+  align-items: center;
+  gap: 2px;
   margin-inline: auto;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  background: rgb(16 17 38 / 0.62);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 12px 30px -16px rgb(0 0 0 / 0.7);
 }
 .nav__link {
   position: relative;
-  font-size: var(--fs-small);
+  display: inline-flex;
+  align-items: center;
+  padding: 9px clamp(12px, 1.3vw, 18px);
+  border-radius: 999px;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text-2);
+  transition:
+    background 0.35s,
+    color 0.35s;
+}
+.nav__link:hover {
+  background: rgb(255 255 255 / 0.05);
+}
+/* rolling-text hover lives on the inner wrapper */
+.nav__roll {
+  position: relative;
+  display: block;
   overflow: hidden;
-  display: inline-block;
   height: 1.6em;
   line-height: 1.6;
 }
-.nav__link span {
+.nav__roll span {
   display: block;
   transition: transform 0.5s var(--ease);
 }
-.nav__link span::after {
+.nav__roll span::after {
   content: attr(data-text);
   position: absolute;
   left: 0;
   top: 100%;
   color: var(--text);
 }
-.nav__link:hover span,
-.nav__link:focus-visible span {
+.nav__link:hover .nav__roll span,
+.nav__link:focus-visible .nav__roll span {
   transform: translateY(-100%);
+}
+.nav__link:focus-visible {
+  outline: 2px solid var(--gold-line);
+  outline-offset: 2px;
 }
 .nav__link.is-active {
   color: var(--text);
 }
+/* active page: short gold underline under the label */
 .nav__link.is-active::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
+  left: clamp(12px, 1.3vw, 18px);
+  right: clamp(12px, 1.3vw, 18px);
+  bottom: 5px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--gold);
 }
 .nav__actions {

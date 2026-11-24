@@ -1,20 +1,29 @@
-import { useRef } from 'react';
 import { SectionHead } from '../../components/ui/SectionHead';
+import { Reveal } from '../../components/animations/Reveal';
 import { clients, testimonials } from '../../data';
 
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('');
+
 export function Testimonials() {
-  const track = useRef<HTMLUListElement>(null);
-  const move = (dir: number) => {
-    const el = track.current;
-    if (!el) return;
-    const card = el.querySelector('li');
-    el.scrollBy({ left: dir * ((card?.clientWidth ?? 400) + 24), behavior: 'smooth' });
-  };
   return (
     <section className="section voices" data-chapter="4" aria-labelledby="voices-title">
       <div className="container">
-        <SectionHead eyebrow="Clients & testimonials" index="07" titleId="voices-title" title="What our *clients* say." />
+        <SectionHead
+          eyebrow="Clients & testimonials"
+          index="07"
+          titleId="voices-title"
+          title="What our *clients* say."
+          lead="Feedback from the teams we build for and support — in their own words."
+          align="split"
+        />
       </div>
+
+      {/* partner names, continuously scrolling */}
       <div className="marquee" aria-label="Clients">
         <div className="marquee__inner">
           {[0, 1].map((k) => (
@@ -26,30 +35,37 @@ export function Testimonials() {
           ))}
         </div>
       </div>
+
       <div className="container">
-        <ul ref={track} className="voices__track" tabIndex={0} aria-label="Testimonials — scroll horizontally">
+        {/* every testimonial visible at once — no cut-off cards */}
+        <Reveal as="ul" className="voices__grid" stagger={0.1}>
           {testimonials.map((t) => (
-            <li key={t.id} className="quote">
+            <li key={t.id} className="quote" data-reveal>
               <figure>
-                <span className="quote__mark" aria-hidden>“</span>
+                <div className="quote__top">
+                  <span className="quote__mark" aria-hidden>
+                    “
+                  </span>
+                  <span className="quote__company">{t.company}</span>
+                </div>
                 <blockquote>
                   <p>{t.quote}</p>
                 </blockquote>
                 <figcaption>
-                  <span className="quote__avatar" aria-hidden>{t.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}</span>
-                  <span>
+                  <span className="quote__avatar" aria-hidden>
+                    {initials(t.name)}
+                  </span>
+                  <span className="quote__who">
                     <strong>{t.name}</strong>
-                    <span>{t.designation}, {t.company}</span>
+                    <span>
+                      {t.designation}, {t.company}
+                    </span>
                   </span>
                 </figcaption>
               </figure>
             </li>
           ))}
-        </ul>
-        <div className="voices__nav">
-          <button type="button" className="round-btn" onClick={() => move(-1)} aria-label="Previous testimonial">←</button>
-          <button type="button" className="round-btn" onClick={() => move(1)} aria-label="Next testimonial">→</button>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -96,6 +96,11 @@ export function PortalScene() {
     uniforms.uReveal.value = THREE.MathUtils.clamp(reveal * 1.25 - 0.1, 0, 1.2);
     uniforms.uIntensity.value = intensity * Math.min(1, reveal * 1.6);
     metal.opacity = 1;
+    // the ring's reflections dim with the portal so it stays quiet behind content (hero: full, unchanged)
+    // homepage only: inner pages and the contact page keep their full reflections
+    const glow = Math.max(THREE.MathUtils.clamp(intensity, 0, 1), live.inner, live.contact);
+    metal.envMapIntensity = 0.25 + 1.1 * glow;
+    darkMetal.envMapIntensity = 0.25 + 0.75 * glow;
 
     if (tilt.current) {
       tilt.current.rotation.y = THREE.MathUtils.lerp(tilt.current.rotation.y, live.pointer.x * 0.25 + (live.chapter > 1.5 && live.chapter < 2.5 ? 0.45 : 0) - live.inner * 0.35 * (narrow ? 0 : 1), 0.05);

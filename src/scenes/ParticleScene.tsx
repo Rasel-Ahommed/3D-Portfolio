@@ -49,7 +49,7 @@ export function ParticleScene({ count }: { count: number }) {
     uniforms.uTime.value += dt;
     uniforms.uPixelRatio.value = dpr;
     // full in the hero, softer behind the content sections further down
-    const afterHero = 1 - 0.45 * Math.min(1, live.chapter);
+    const afterHero = 1 - 0.65 * Math.min(1, live.chapter);
     const target = Math.min(1, sceneState.reveal * 1.4) * (0.85 + 0.12 * Math.max(0, 1 - Math.abs(live.chapter - 4))) * afterHero;
     uniforms.uOpacity.value = THREE.MathUtils.lerp(uniforms.uOpacity.value, target * (1 - live.inner * 0.35), 0.05);
     if (ref.current) {

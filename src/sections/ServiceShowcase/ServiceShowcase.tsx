@@ -56,7 +56,7 @@ export function ServiceShowcase() {
       <div className="container">
         <SectionHead
           eyebrow="What we do"
-          index="02"
+          index="03"
           titleId="svc-title"
           title={`${featured.length} disciplines. *One* engineering standard.`}
           lead="Each discipline has its own craft. Every one is held to the same bar for quality, security and long-term support."

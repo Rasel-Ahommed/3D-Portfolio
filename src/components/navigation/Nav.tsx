@@ -11,22 +11,15 @@ import { cn } from '../../utils/cn';
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const { pathname } = useLocation();
-  const last = useRef(0);
   const menuRef = useRef<HTMLDivElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 40);
-      setHidden(y > 400 && y > last.current + 4);
-      if (y < last.current - 4) setHidden(false);
-      last.current = y;
-    };
+    // the header always stays visible; only the "scrolled" state is tracked
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -61,13 +54,15 @@ export function Nav() {
   return (
     <>
       <a href="#main" className="skip-link">Skip to content</a>
-      <header className={cn('nav', scrolled && 'is-scrolled', hidden && !open && 'is-hidden')}>
+      <header className={cn('nav', scrolled && 'is-scrolled')}>
         <div className="nav__inner">
           <Logo />
           <nav aria-label="Primary" className="nav__links">
             {navLinks.map((l) => (
               <NavLink key={l.to} to={l.to} className={({ isActive }) => cn('nav__link', isActive && 'is-active')}>
-                <span data-text={l.label}>{l.label}</span>
+                <span className="nav__roll">
+                  <span data-text={l.label}>{l.label}</span>
+                </span>
               </NavLink>
             ))}
           </nav>

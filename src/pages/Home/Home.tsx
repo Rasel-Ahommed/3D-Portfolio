@@ -25,8 +25,8 @@ export default function Home() {
       />
       <Hero />
       <Introduction />
-      <ServiceShowcase />
       <ProjectShowcase />
+      <ServiceShowcase />
       <Technology />
       <WhyChts />
       <ProductShowcase />
