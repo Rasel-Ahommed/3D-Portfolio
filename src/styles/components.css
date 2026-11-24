@@ -930,8 +930,9 @@ img.smart-img.is-loaded {
 .marquee {
   overflow: hidden;
   border-block: 1px solid var(--border-soft);
-  padding-block: 26px;
-  margin-bottom: clamp(48px, 6vw, 80px);
+  padding-block: 22px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+  background: rgb(5 5 20 / 0.55);
   mask-image: linear-gradient(
     90deg,
     transparent,
@@ -947,18 +948,18 @@ img.smart-img.is-loaded {
 }
 .marquee ul {
   display: flex;
-  gap: clamp(48px, 7vw, 110px);
-  padding-right: clamp(48px, 7vw, 110px);
+  gap: clamp(36px, 5vw, 80px);
+  padding-right: clamp(36px, 5vw, 80px);
 }
 .marquee li {
-  font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+  font-size: clamp(1.15rem, 1.9vw, 1.75rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--muted);
+  letter-spacing: -0.025em;
+  color: rgb(196 197 206 / 0.6);
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: clamp(48px, 7vw, 110px);
+  gap: clamp(36px, 5vw, 80px);
 }
 .marquee li::after {
   content: "✦";
